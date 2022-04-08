@@ -17,6 +17,7 @@ public class Movement : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
