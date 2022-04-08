@@ -1,0 +1,10 @@
+{
+  "credentials": "/home/hsmith/.config/rese/credentials.json",
+  "packages": {
+    "[weeklyjam248]artsource": {
+      "name": "[weeklyjam248]artsource",
+      "directory": "artsource",
+      "hash": "W95yQR9Kucp10BwZRY00UnAOpdj4="
+    }
+  }
+}
