@@ -17,6 +17,26 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Prototype_Green
+    second: {fileID: 2100000, guid: 524eab1226e47134fb5d32e7d8eebd13, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Prototype_Orange
+    second: {fileID: 2100000, guid: 01038395cf0ac8c4cb272fe27998dc24, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Prototype_Purple
+    second: {fileID: 2100000, guid: cd7e00d3ac48b8346b52ddd88e616414, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Prototype_Red
+    second: {fileID: 2100000, guid: a0baf1ce1fa413946a2ddc2183f51b62, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: conc_base_01
     second: {fileID: 2100000, guid: e19231c2b1404894f9a7354a920b56f4, type: 2}
   - first:
