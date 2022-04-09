@@ -43,11 +43,11 @@ public class Attacking : MonoBehaviour
             SwingAxe();
 
         //Holding the button throws the axe
-        if (Input.GetButton("Fire1") && ThrowTime < 4)
+        if (Input.GetButton("Fire1") && ThrowTime < 1.2f)
         {
             //A timer to confirm throwing
             ThrowTime += Time.deltaTime;
-            if (ThrowTime > 0.5f)
+            if (ThrowTime > 0.2f)
                 if (Throwing == false)
                     ThrowAxe();
         }
@@ -65,14 +65,17 @@ public class Attacking : MonoBehaviour
     void ThrowAxe()
     {
         Throwing = true;
+        AxeAnimator.SetBool("Held", false);
+        AxePoint.parent = transform.parent;
         AxeAnimator.Play("AxeThrow");
-        AxeThrow.AxeForward(transform.forward);
+        AxeThrow.AxeForward(AxePoint.forward);
     }
 
     //After throwing it sets the axe to it's help mode
     public void AxeToHold()
     {
-        transform.parent = ShotGunPoint.parent;
+        AxeAnimator.SetBool("Held", true);
+        AxePoint.parent = ShotGunPoint.parent;
         ThrowTime = 0;
         Throwing = false;
     }
@@ -80,6 +83,7 @@ public class Attacking : MonoBehaviour
     //Swings the axe needs more work
     void SwingAxe()
     {
+        AxeToHold();
         AxeAnimator.Play("AxeSwing");
     }
 
