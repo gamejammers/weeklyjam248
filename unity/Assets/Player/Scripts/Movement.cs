@@ -81,9 +81,9 @@ public class Movement : MonoBehaviour
             transform.Rotate(0, -sensitivity * Time.deltaTime * 50, 0);
 
         //Rotates the camera up and down 
-        if (Input.GetAxis("Mouse Y") < 0 && MouseY < 45)
+        if (Input.GetAxis("Mouse Y") < 0 && MouseY < 80)
             MouseY += sensitivity * Time.deltaTime * 50;
-        else if (Input.GetAxis("Mouse Y") > 0 && MouseY > -45)
+        else if (Input.GetAxis("Mouse Y") > 0 && MouseY > -80)
             MouseY -= sensitivity * Time.deltaTime * 50;
 
         //Sets the camera after all the movement has been done

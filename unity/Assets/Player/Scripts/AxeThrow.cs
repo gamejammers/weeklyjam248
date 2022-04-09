@@ -5,6 +5,7 @@ using UnityEngine;
 public class AxeThrow : MonoBehaviour
 {
     public float AxeSpeed;
+    public int Damage;
     public Attacking attacking;
 
     private LineRenderer Chain;
@@ -31,7 +32,7 @@ public class AxeThrow : MonoBehaviour
         attacking.ThrowTime = 4;
         Vector3 Direction = transform.position - player;
         float TotalDirection = Mathf.Abs(Direction.x) + Mathf.Abs(Direction.y) + Mathf.Abs(Direction.z);
-        if (TotalDirection < 1.5f)
+        if (TotalDirection < 2f)
             attacking.AxeToHold();
         Direction = new Vector3(Direction.x / TotalDirection, Direction.y / TotalDirection, Direction.z / TotalDirection);
         rb.velocity = -Direction * AxeSpeed;
@@ -45,5 +46,14 @@ public class AxeThrow : MonoBehaviour
         ChainPoints[1] = transform.position;
 
         Chain.SetPositions(ChainPoints);
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Enemy")
+        {
+            col.gameObject.GetComponent<EnemyHealth>().TakeDamage(Damage);
+        }
+        AxeBack(attacking.transform.position);
     }
 }

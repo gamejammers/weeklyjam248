@@ -8,6 +8,7 @@ public class Attacking : MonoBehaviour
     //The bullets made and speed of the bullets shot
     public GameObject ShotGunBullet;
     public float BulletSpeed;
+    public float BulletSpread;
 
     //Spawn position of the shot gun and axe
     public Transform ShotGunPoint;
@@ -58,7 +59,10 @@ public class Attacking : MonoBehaviour
         if (Throwing == true)
             AxeThrow.DrawChain();
         else
+        {
             AxePoint.localPosition = new Vector3(0.3f, -0.3f, 0.3f);
+            AxePoint.localEulerAngles = new Vector3(0, 0, 0);
+        }
     }
 
     //Function for doing multiple things for thorwing the axe
@@ -98,8 +102,7 @@ public class Attacking : MonoBehaviour
             GameObject NewBullet = Instantiate(ShotGunBullet, ShotGunPoint);
             NewBullet.transform.position += transform.forward * 0.15f;
             NewBullet.transform.SetParent(transform.parent);
-            Vector3 bulletAngles = BulletAverage + new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), Random.Range(-20, 20));
-            Debug.Log(bulletAngles);
+            Vector3 bulletAngles = BulletAverage + new Vector3(Random.Range(-BulletSpread, BulletSpread), Random.Range(-BulletSpread, BulletSpread), Random.Range(-BulletSpread, BulletSpread));
             NewBullet.transform.eulerAngles = bulletAngles;
             NewBullet.GetComponent<Rigidbody>().AddForce(NewBullet.transform.forward * 10 * BulletSpeed);
         }
