@@ -189,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267370, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: Speed
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267370, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: Camera
@@ -197,7 +197,11 @@ PrefabInstance:
       objectReference: {fileID: 1510736846}
     - target: {fileID: 1441453008271267370, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: JumpPower
-      value: 15
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441453008271267370, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
+      propertyPath: sensitivity
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267371, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: AxePoint
