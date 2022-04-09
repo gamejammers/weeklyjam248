@@ -3,7 +3,7 @@
 // http://www.blacktriangles.com
 //
 
-Shader "blacktriangles/Gradient Sky"
+Shader "GameJammers/URP/Gradient Sky"
 {
     //
     // properties /////////////////////////////////////////////////////////////
