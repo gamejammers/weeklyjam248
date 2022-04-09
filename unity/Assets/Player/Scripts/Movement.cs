@@ -47,12 +47,12 @@ public class Movement : MonoBehaviour
 
         //Adds the direction in diffrent ways based on weather the player is falling or not
         if (Input.GetButton("Run"))
-            MaxSpeed = Speed * 3;
+            MaxSpeed = Speed * 1.5f;
         else
-            MaxSpeed = Speed * 2;
+            MaxSpeed = Speed;
 
         if (Mathf.Abs(rb.velocity.x) < Mathf.Abs(Direction.x) * Speed && Mathf.Abs(rb.velocity.z) < Mathf.Abs(Direction.z) * Speed)
-            rb.velocity = new Vector3(Direction.x * Speed, rb.velocity.y, Direction.z * Speed);
+            rb.velocity = new Vector3(Direction.x * MaxSpeed, rb.velocity.y, Direction.z * MaxSpeed);
 
 
 

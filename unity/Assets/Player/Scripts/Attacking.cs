@@ -70,8 +70,8 @@ public class Attacking : MonoBehaviour
     {
         Throwing = true;
         AxeAnimator.SetBool("Held", false);
-        AxePoint.parent = transform.parent;
         AxeAnimator.Play("AxeThrow");
+        AxePoint.parent = transform.parent;
         AxeThrow.AxeForward(AxePoint.forward);
     }
 
