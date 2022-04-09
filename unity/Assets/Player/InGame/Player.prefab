@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1441453008271267365}
   - component: {fileID: 1441453008271267370}
   - component: {fileID: 1441453008271267371}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   rb: {fileID: 1441453008271267365}
   Speed: 6
   sensitivity: 6
-  JumpPower: 0
+  JumpPower: 1
 --- !u!114 &1441453008271267371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShotGunBullet: {fileID: 8707854261981013842, guid: 9babb21b8aa2b9a4dabf8367d0aa7aa4, type: 3}
   BulletSpeed: 4
+  BulletSpread: 5
   ShotGunPoint: {fileID: 0}
   AxePoint: {fileID: 0}
   ThrowTime: 0

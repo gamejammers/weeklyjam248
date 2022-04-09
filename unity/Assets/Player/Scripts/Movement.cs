@@ -52,7 +52,7 @@ public class Movement : MonoBehaviour
             MaxSpeed = Speed * 2;
 
         if (Mathf.Abs(rb.velocity.x) < Mathf.Abs(Direction.x) * Speed && Mathf.Abs(rb.velocity.z) < Mathf.Abs(Direction.z) * Speed)
-            rb.velocity = Direction * Speed;
+            rb.velocity = new Vector3(Direction.x * Speed, rb.velocity.y, Direction.z * Speed);
 
 
 
@@ -99,9 +99,9 @@ public class Movement : MonoBehaviour
 
         //Checks if any of the colliders was the ground 
         Grounded = false;
-        foreach (Collider col in GroundCheck)
+        for (int i = 0; i < GroundCheck.Length; i++)
         {
-            if (col.gameObject.tag == "Ground")
+            if (GroundCheck[i].gameObject.name != gameObject.name)
                 Grounded = true;
         }
 
@@ -125,10 +125,11 @@ public class Movement : MonoBehaviour
     //Jumps 
     IEnumerator Jump()
     {
+        JumpCool = 0.25f;
         //Adds force 10 times quickly for a clean jump
         for (int i = 0; i < 5; i++)
         {
-            rb.AddForce(new Vector3(0, JumpPower * Speed, 0));
+            rb.AddForce(new Vector3(0, JumpPower * 10, 0));
             yield return new WaitForSeconds(0.01f);
         }
     }

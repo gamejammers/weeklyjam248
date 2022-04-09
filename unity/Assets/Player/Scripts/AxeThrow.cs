@@ -36,7 +36,6 @@ public class AxeThrow : MonoBehaviour
             attacking.AxeToHold();
         Direction = new Vector3(Direction.x / TotalDirection, Direction.y / TotalDirection, Direction.z / TotalDirection);
         rb.velocity = -Direction * AxeSpeed;
-        Debug.Log(Direction);
     }
 
     //Draws the chain line 
