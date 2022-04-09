@@ -34,5 +34,5 @@ Builds
 *.kra~
 *.blend1
 unity/Logs
-artsource
+/artsource
 unity/UserSettings
