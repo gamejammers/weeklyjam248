@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Checks for ground and than if it was found reduce the JumpCool
+        //Checks for ground and than if it was found allow the player to try to jump
         GroundCheck();
 
         //Calls the Move Function

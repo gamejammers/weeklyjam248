@@ -5,26 +5,25 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int Damage;
+    public float BulletDuration;
 
     // Start is called before the first frame update
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        Invoke("BulletEnd", BulletDuration);
     }
 
     void OnCollisionEnter(Collision col)
     {
-        Debug.Log("Hit " + col.gameObject.name);
         if (col.gameObject.tag == "Enemy")
         {
             col.gameObject.GetComponent<EnemyHealth>().TakeDamage(Damage);
         }
+        Destroy(gameObject);
+    }
+
+    void BulletEnd()
+    {
         Destroy(gameObject);
     }
 }
