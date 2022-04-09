@@ -13,3 +13,8 @@ CC-BY 3.0
 # Rusted Metal Pack by p0ss
 https://opengameart.org/content/rusted-metal-texture-pack
 CC-BY 3.0
+
+# Protoype Textures by Kenney
+https://kenney.nl/assets/prototype-textures
+CC-BY 3.0
+
