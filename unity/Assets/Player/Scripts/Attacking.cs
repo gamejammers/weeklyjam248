@@ -20,7 +20,7 @@ public class Attacking : MonoBehaviour
 
     //Variables for throwing time and weather or not you are throwing
     public float ThrowTime;
-    public bool InAttack;
+    public bool CanAttack;
     public bool Throwing;
 
     void Awake()
@@ -32,16 +32,16 @@ public class Attacking : MonoBehaviour
     void Update()
     {
         //Shot gun shooting detection
-        if (Input.GetButtonDown("Fire2") && InAttack == false)
+        if (Input.GetButtonDown("Fire2") && CanAttack == false)
             StartCoroutine(ShotGunShot());
 
         //The attacking fot the axe
         //Clicking the button swings it
-        if (Input.GetButtonUp("Fire1") && InAttack == false)
+        if (Input.GetButtonUp("Fire1") && CanAttack == false)
             SwingAxe();
 
         //Holding the button throws the axe
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && CanAttack == true)
         {
             //A timer to confirm throwing
             ThrowTime += Time.deltaTime;
@@ -61,17 +61,12 @@ public class Attacking : MonoBehaviour
         //checks if the axes is not hel by the player and than if it is held by the player it sets the local position and if not draws the line for the chain
         if (Throwing == true)
             AxeThrow.DrawChain();
-        else
-        {
-            AxePoint.localPosition = new Vector3(0, 0, 0);
-            AxePoint.localEulerAngles = new Vector3(0, 0, 0);
-        }
     }
 
     //Function for doing multiple things for thorwing the axe
     void ThrowAxe()
     {
-        InAttack = true;
+        CanAttack = true;
         Throwing = true;
         visuals.FinishThrow();
         AxePoint.GetChild(0).gameObject.SetActive(true);
@@ -84,7 +79,7 @@ public class Attacking : MonoBehaviour
     public void AxeToHold()
     {
         Throwing = false;
-        InAttack = false;
+        CanAttack = false;
         visuals.Catch();
         AxePoint.GetChild(0).gameObject.SetActive(false);
         AxePoint.parent = transform;
@@ -101,7 +96,7 @@ public class Attacking : MonoBehaviour
     IEnumerator ShotGunShot()
     {
         visuals.Fire();
-        InAttack = true;
+        CanAttack = true;
         //Sets the average angle of the bullets
         Vector3 BulletAverage = BulletSpawn.eulerAngles;
         for (int i = 0; i < 20; i++)
@@ -113,8 +108,8 @@ public class Attacking : MonoBehaviour
             NewBullet.transform.eulerAngles = bulletAngles;
             NewBullet.GetComponent<Rigidbody>().AddForce(NewBullet.transform.forward * 10 * BulletSpeed);
         }
-        yield return new WaitForSeconds(0.5f);
-        InAttack = false;
+        yield return new WaitForSeconds(0.3f);
+        CanAttack = false;
     }
 
     public override bool Equals(object obj)

@@ -17,8 +17,9 @@ public class Movement : MonoBehaviour
     private float MaxSpeed;
     private bool Grounded;
     private bool Jumping;
-    private bool CanJump;
     private float JumpCool;
+    public bool Dashing;
+    public float DashCool;
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +33,20 @@ public class Movement : MonoBehaviour
         //Checks for ground and than if it was found allow the player to try to jump
         GroundCheck();
 
-        //Calls the Move Function
-        Move();
+        //Subtracts dash cool
+        if (DashCool >= 0)
+            DashCool -= Time.deltaTime;
 
-        //Calls the CameraMove FUnction
-        RotatePlayer();
+        //Checks if the player is dashing and if dash cool is less than 0 than it dashes
+        if (Input.GetButton("Dash") && DashCool < 0)
+            StartCoroutine(Dash());
+        else if (Dashing == false) //The player can't look around or move well dashing
+        {
+            //Calls the Move Function
+            Move();
+            //Calls the CameraMove FUnction
+            RotatePlayer();
+        }
     }
 
     void Move()
@@ -108,20 +118,12 @@ public class Movement : MonoBehaviour
         }
 
         if (Grounded == true)
-            if (JumpCool > 0)
-            {
+            if (JumpCool >= 0)
                 JumpCool -= Time.deltaTime;
-                CanJump = false;
-            }
-            else
-                CanJump = true;
 
         //Jumps the player if they can 
-        if (Input.GetButton("Jump") && CanJump == true)
-        {
-            CanJump = false;
+        if (Input.GetButton("Jump") && JumpCool < 0)
             StartCoroutine(Jump());
-        }
     }
 
     //Jumps 
@@ -134,6 +136,22 @@ public class Movement : MonoBehaviour
             rb.AddForce(new Vector3(0, JumpPower * 10, 0));
             yield return new WaitForSeconds(0.01f);
         }
+    }
+
+    IEnumerator Dash()
+    {
+        Dashing = true;
+        DashCool = 1;
+        float Forward = Input.GetAxisRaw("Vertical");
+        Vector3 DashDirection;
+        if (Forward >= 0)
+            DashDirection = transform.forward * Speed * 3;
+        else
+            DashDirection = -transform.forward * Speed * 3;
+
+        rb.velocity = new Vector3(DashDirection.x, -1, DashDirection.z);
+        yield return new WaitForSeconds(0.25f);
+        Dashing = false;
     }
 
     void OnDrawGizmosSelected()

@@ -34,7 +34,6 @@ public class AxeThrow : MonoBehaviour
         if (TotalDirection < 2f)
             attacking.AxeToHold();
         Direction = new Vector3(Direction.x / TotalDirection, Direction.y / TotalDirection, Direction.z / TotalDirection);
-        Debug.Log(Direction);
         rb.velocity = -Direction * AxeSpeed;
     }
 
