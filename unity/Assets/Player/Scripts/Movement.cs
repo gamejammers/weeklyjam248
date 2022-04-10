@@ -33,10 +33,6 @@ public class Movement : MonoBehaviour
         //Checks for ground and than if it was found allow the player to try to jump
         GroundCheck();
 
-        //Subtracts dash cool
-        if (DashCool >= 0)
-            DashCool -= Time.deltaTime;
-
         //Checks if the player is dashing and if dash cool is less than 0 than it dashes
         if (Input.GetButton("Dash") && DashCool < 0)
             StartCoroutine(Dash());
@@ -118,8 +114,14 @@ public class Movement : MonoBehaviour
         }
 
         if (Grounded == true)
+        {
+            //Subtracts jump cooldown
             if (JumpCool >= 0)
                 JumpCool -= Time.deltaTime;
+            //Subtracts dash cooldown
+            if (DashCool >= 0)
+                DashCool -= Time.deltaTime;
+        }
 
         //Jumps the player if they can 
         if (Input.GetButton("Jump") && JumpCool < 0)
