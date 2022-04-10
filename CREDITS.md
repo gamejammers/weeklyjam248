@@ -18,3 +18,6 @@ CC-BY 3.0
 https://kenney.nl/assets/prototype-textures
 CC-BY 3.0
 
+# Chain Texture by para
+https://opengameart.org/node/15701
+CC-0
