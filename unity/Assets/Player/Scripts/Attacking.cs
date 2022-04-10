@@ -6,7 +6,7 @@ public class Attacking : MonoBehaviour
 {
     //The bullets made and speed of the bullets shot
     public GameObject ShotGunBullet;
-    public GameObject Axe;
+    public AxeWeapon AxePrefab;
     public float BulletSpeed;
     public float BulletSpread;
 
@@ -38,7 +38,7 @@ public class Attacking : MonoBehaviour
     // This object represents where the axe is in space.  We pass it to the
     // visuals, so it can draw the axe and the chain.  We can also use it to
     // detect collisions and deal damage.
-    private GameObject axeTracker = null;
+    private AxeWeapon axeTracker = null;
 
     // Update is called once per frame
     void Update()
@@ -52,7 +52,6 @@ public class Attacking : MonoBehaviour
 
     private void UpdateAxe()
     {
-        ThrowTime += Time.deltaTime;
         switch (axeState)
         {
             //
@@ -105,10 +104,9 @@ public class Attacking : MonoBehaviour
                 if (axeTracker == null)
                 {
                     ThrowTime = 0f;
-                    axeTracker = Axe;
-                    axeTracker.GetComponent<AxeWeapon>().attacking = this;
-                    axeTracker.GetComponent<AxeWeapon>().Hit = false;
-                    axeTracker.transform.localPosition = new Vector3(0, 0, 0);
+                    axeTracker = Instantiate(AxePrefab, transform.position+Vector3.up, transform.rotation) as AxeWeapon;
+                    axeTracker.attacking = this;
+                    axeTracker.Hit = false;
                     visuals.StartThrow(axeTracker.transform);
                 }
 
@@ -150,6 +148,7 @@ public class Attacking : MonoBehaviour
                 {
                     ThrowTime = 0;
                     visuals.Catch();
+					Destroy(axeTracker.gameObject);
                     axeTracker = null;
                     axeState = AxeState.Catch;
                 }
@@ -169,6 +168,7 @@ public class Attacking : MonoBehaviour
                 }
                 break;
         }
+		ThrowTime += Time.deltaTime;
     }
 
     //Shoots the shotgun

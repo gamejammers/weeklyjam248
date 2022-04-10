@@ -22,13 +22,17 @@ public class AxeWeapon : MonoBehaviour
         Collider[] EnemyCheck = Physics.OverlapBox(transform.position + transform.forward * 0.5f, new Vector3(0.3f, 0.7f, 1));
         foreach (Collider Check in EnemyCheck)
         {
-            Debug.Log(Check.gameObject.name);
-            Hit = true;
-            attacking.ThrowTime = 3;
-            if (Check.gameObject.tag == "Enemy")
-            {
-                Check.gameObject.GetComponent<EnemyHealth>().TakeDamage(Damage);
-            }
+			// don't collide with self or the player
+			if(Check.gameObject != this.gameObject && Check.gameObject.tag != "Player")
+			{
+            	Debug.Log("COLLISION: " + Check.gameObject.name);
+            	Hit = true;
+            	attacking.ThrowTime = 3;
+            	if (Check.gameObject.tag == "Enemy")
+            	{
+            	    Check.gameObject.GetComponent<EnemyHealth>().TakeDamage(Damage);
+            	}
+			}
         }
     }
 

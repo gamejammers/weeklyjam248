@@ -85,6 +85,8 @@ MonoBehaviour:
   sensitivity: 8
   JumpPower: 5
   visuals: {fileID: 909021130622789654}
+  Dashing: 0
+  DashCool: 0
 --- !u!114 &1441453008271267371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShotGunBullet: {fileID: 8707854261981013842, guid: 9babb21b8aa2b9a4dabf8367d0aa7aa4, type: 3}
+  AxePrefab: {fileID: 6184290855724997225, guid: 5a6103433bfec574281908bec2e385d7, type: 3}
   BulletSpeed: 5
   BulletSpread: 5
   BulletSpawn: {fileID: 8471402390837123202}
