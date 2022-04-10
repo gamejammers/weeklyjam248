@@ -78,7 +78,6 @@ public class PlayerVisualController
 	public void FinishThrow()
 	{
 		animator.SetBool("isThrowing", false);
-		SetThrowTarget(null);
 	}
 
 	//
@@ -88,6 +87,7 @@ public class PlayerVisualController
 	public void Catch()
 	{
 		animator.SetTrigger("caught");
+		SetThrowTarget(null);
 	}
 	
 
