@@ -9,6 +9,7 @@ public class Attacking : MonoBehaviour
     public AxeWeapon AxePrefab;
     public float BulletSpeed;
     public float BulletSpread;
+    public int SwingDamage;
 
     //Spawn position of the shot gun and axe
     public Transform SightPos;
@@ -104,7 +105,7 @@ public class Attacking : MonoBehaviour
                 if (axeTracker == null)
                 {
                     ThrowTime = 0f;
-                    axeTracker = Instantiate(AxePrefab, SightPos.position + Vector3.up * 0.5f, SightPos.rotation) as AxeWeapon;
+                    axeTracker = Instantiate(AxePrefab, SightPos.position, SightPos.rotation) as AxeWeapon;
                     axeTracker.attacking = this;
                     axeTracker.Hit = false;
                     visuals.StartThrow(axeTracker.transform);
@@ -169,6 +170,16 @@ public class Attacking : MonoBehaviour
                 break;
         }
         ThrowTime += Time.deltaTime;
+    }
+
+    void AxeHit()
+    {
+        Collider[] EnemyCheck = Physics.OverlapBox(transform.position + transform.forward * 0.5f, new Vector3(0.3f, 0.7f, 1), Quaternion.identity, LayerMask.GetMask("Enemy"));
+
+        foreach (Collider Check in EnemyCheck)
+        {
+            Check.gameObject.GetComponent<EnemyHealth>().TakeDamage(SwingDamage);
+        }
     }
 
     //Shoots the shotgun

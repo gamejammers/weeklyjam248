@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeAI : MonoBehaviour
+public class ZombieVikingAI : MonoBehaviour
 {
     //How fast the enemy moves
     public float Speed;
@@ -49,14 +49,8 @@ public class MeleeAI : MonoBehaviour
     //Checks how close the enemy is to the player and if close enough returns true to ba able to attack else it returns false and moves twoard the target
     private bool MoveTwoards(Vector3 TargetPos)
     {
-
-        Vector3 direction = Target.position - transform.position;
-        float angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-        Quaternion newQuaternion = Quaternion.Euler(new Vector3(0, angle, 0));
-        transform.rotation = Quaternion.Slerp(transform.rotation, newQuaternion, 4 * Time.deltaTime);
-
-        Vector3 Direction = (transform.forward);
-        float MaxSpeed = Speed * 2;
+        //Gets The dirction from the target to the enemy
+        Vector3 Direction = transform.position - TargetPos;
 
         //Gets the total dirction than checks if that direction is within the range of the target
         float TotalDirection = Mathf.Abs(Direction.x) + Mathf.Abs(Direction.z);
@@ -67,21 +61,9 @@ public class MeleeAI : MonoBehaviour
             return true;
         }
 
-
-        if (Mathf.Abs(rb.velocity.x) < Mathf.Abs(Direction.x) * Speed && Mathf.Abs(rb.velocity.z) < Mathf.Abs(Direction.z) * Speed)
-            rb.velocity = Direction * Speed;
-
-        rb.AddForce(Direction * MaxSpeed);
-
-        if (Mathf.Abs(rb.velocity.x) > MaxSpeed || Mathf.Abs(rb.velocity.z) > MaxSpeed)
-        {
-            float XZ = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
-            float XVelocity = Mathf.Abs(rb.velocity.x) / XZ;
-            float ZVelocity = Mathf.Abs(rb.velocity.z) / XZ;
-
-            rb.velocity = new Vector3(Direction.x * XVelocity * MaxSpeed, rb.velocity.y, Direction.z * ZVelocity * MaxSpeed);
-        }
-        rb.velocity = new Vector3(rb.velocity.x * 0.98f, rb.velocity.y, rb.velocity.z * 0.98f);
+        //This converts the dirction into %'s and then * them by speed and sets the y Direction to rb.velocity.y
+        Direction = new Vector3((-Direction.x / TotalDirection) * Speed, rb.velocity.y, (-Direction.z / TotalDirection) * Speed);
+        rb.velocity = Direction;
         return false;
     }
 
