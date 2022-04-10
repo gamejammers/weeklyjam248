@@ -11,7 +11,7 @@ public class Attacking : MonoBehaviour
     public float BulletSpread;
 
     //Spawn position of the shot gun and axe
-    public Transform BulletSpawn;
+    public Transform SightPos;
 
     //Animators for the weapons
     public PlayerVisualController visuals;
@@ -44,7 +44,7 @@ public class Attacking : MonoBehaviour
     void Update()
     {
         //Shot gun shooting detection
-        if (Input.GetButtonDown("Fire2") && CanAttack)
+        if (Input.GetButton("Fire1") && CanAttack)
             StartCoroutine(ShotGunShot());
 
         UpdateAxe();
@@ -58,7 +58,7 @@ public class Attacking : MonoBehaviour
             // we are not using the axe.  start swinging logic
             // 
             case AxeState.Ready:
-                if (Input.GetButton("Fire1") && CanAttack)
+                if (Input.GetButton("Fire2") && CanAttack)
                 {
                     ThrowTime = 0f;
                     axeState = AxeState.CheckSwing;
@@ -70,7 +70,7 @@ public class Attacking : MonoBehaviour
             // if they keep it held, we are throwing
             //
             case AxeState.CheckSwing:
-                if (!Input.GetButton("Fire1"))
+                if (!Input.GetButton("Fire2"))
                 {
                     ThrowTime = 0f;
                     axeState = AxeState.SwingAxe;
@@ -104,7 +104,7 @@ public class Attacking : MonoBehaviour
                 if (axeTracker == null)
                 {
                     ThrowTime = 0f;
-                    axeTracker = Instantiate(AxePrefab, transform.position+Vector3.up, transform.rotation) as AxeWeapon;
+                    axeTracker = Instantiate(AxePrefab, SightPos.position + Vector3.up * 0.5f, SightPos.rotation) as AxeWeapon;
                     axeTracker.attacking = this;
                     axeTracker.Hit = false;
                     visuals.StartThrow(axeTracker.transform);
@@ -113,8 +113,8 @@ public class Attacking : MonoBehaviour
                 if (ThrowTime > 1f)
                 {
                     ThrowTime = 0f;
-                    axeTracker.transform.position = transform.position + transform.forward;
-                    axeTracker.transform.rotation = transform.rotation;
+                    axeTracker.transform.position = SightPos.position + transform.forward;
+                    axeTracker.transform.rotation = SightPos.rotation;
                     axeState = AxeState.Throwing;
                 }
                 break;
@@ -125,7 +125,7 @@ public class Attacking : MonoBehaviour
             //
             case AxeState.Throwing:
                 const float MAX_THROW_TIME = 2f; // todo throw variable
-                if (ThrowTime > MAX_THROW_TIME || !Input.GetButton("Fire1"))
+                if (ThrowTime > MAX_THROW_TIME || !Input.GetButton("Fire2"))
                 {
                     ThrowTime = 0f;
                     visuals.FinishThrow();
@@ -148,7 +148,7 @@ public class Attacking : MonoBehaviour
                 {
                     ThrowTime = 0;
                     visuals.Catch();
-					Destroy(axeTracker.gameObject);
+                    Destroy(axeTracker.gameObject);
                     axeTracker = null;
                     axeState = AxeState.Catch;
                 }
@@ -160,7 +160,7 @@ public class Attacking : MonoBehaviour
                 break;
 
             case AxeState.Catch:
-                const float CATCH_DELAY_TIME = 2f;
+                const float CATCH_DELAY_TIME = 1.5f;
                 if (ThrowTime > CATCH_DELAY_TIME)
                 {
                     axeState = AxeState.Ready;
@@ -168,7 +168,7 @@ public class Attacking : MonoBehaviour
                 }
                 break;
         }
-		ThrowTime += Time.deltaTime;
+        ThrowTime += Time.deltaTime;
     }
 
     //Shoots the shotgun
@@ -177,17 +177,17 @@ public class Attacking : MonoBehaviour
         visuals.Fire();
         CanAttack = false;
         //Sets the average angle of the bullets
-        Vector3 BulletAverage = BulletSpawn.eulerAngles;
+        Vector3 BulletAverage = SightPos.eulerAngles;
         for (int i = 0; i < 20; i++)
         {
             //Shoots multiple bullets and set the angle of each bullet and send them forward
-            GameObject NewBullet = Instantiate(ShotGunBullet, BulletSpawn);
+            GameObject NewBullet = Instantiate(ShotGunBullet, SightPos);
             NewBullet.transform.SetParent(transform.parent);
             Vector3 bulletAngles = BulletAverage + new Vector3(Random.Range(-BulletSpread, BulletSpread), Random.Range(-BulletSpread, BulletSpread), Random.Range(-BulletSpread, BulletSpread));
             NewBullet.transform.eulerAngles = bulletAngles;
             NewBullet.GetComponent<Rigidbody>().AddForce(NewBullet.transform.forward * 10 * BulletSpeed);
         }
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(2.2f);
         CanAttack = true;
     }
 }

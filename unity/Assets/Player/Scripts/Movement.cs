@@ -59,12 +59,10 @@ public class Movement : MonoBehaviour
         else
             MaxSpeed = Speed;
 
-        if (Mathf.Abs(rb.velocity.x) < Mathf.Abs(Direction.x) * Speed && Mathf.Abs(rb.velocity.z) < Mathf.Abs(Direction.z) * Speed)
-            rb.velocity = new Vector3(Direction.x * MaxSpeed, rb.velocity.y, Direction.z * MaxSpeed);
-
-
-
-        rb.AddForce(Direction * MaxSpeed);
+        if (rb.velocity.x > 1.5f || rb.velocity.x < -1.5f && rb.velocity.z > 1.5f || rb.velocity.z < -1.5f)
+            rb.AddForce(Direction * MaxSpeed * 2);
+        else
+            rb.AddForce(Direction * MaxSpeed);
         if (Grounded == true)
         {
             if (Mathf.Abs(rb.velocity.x) > MaxSpeed || Mathf.Abs(rb.velocity.z) > MaxSpeed)
@@ -103,7 +101,7 @@ public class Movement : MonoBehaviour
     void GroundCheck()
     {
         //Checks the ground by having a collider array and checking the tag of each collider
-        Collider[] GroundCheck = Physics.OverlapSphere(transform.position - new Vector3(0, 1f, 0), 0.25f);
+        Collider[] GroundCheck = Physics.OverlapSphere(transform.position - new Vector3(0, 1f, 0), 0.25f, LayerMask.GetMask("Default"));
 
         //Checks if any of the colliders was the ground 
         Grounded = false;
