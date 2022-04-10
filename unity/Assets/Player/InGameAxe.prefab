@@ -11,11 +11,10 @@ GameObject:
   - component: {fileID: 243018016604871718}
   - component: {fileID: 243018016604871717}
   - component: {fileID: 243018016604871716}
-  - component: {fileID: 6905033498278935356}
   - component: {fileID: 6184290855724997225}
   - component: {fileID: 687575197170442423}
   m_Layer: 7
-  m_Name: ThrownAxe
+  m_Name: InGameAxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 243018016604871739}
-  m_LocalRotation: {x: 0, y: 0.06758355, z: 0, w: -0.9977136}
-  m_LocalPosition: {x: -0.123228736, y: 1, z: 0.9054186}
+  m_LocalRotation: {x: 0, y: 0.120895654, z: 0, w: -0.9926653}
+  m_LocalPosition: {x: -0.22018862, y: 1.0000002, z: 0.89056706}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 221599772399611322}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -40.762, z: 0}
 --- !u!33 &243018016604871717
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -85,19 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6905033498278935356
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 243018016604871739}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.0024002092, y: 0.007400003, z: 0.007}
-  m_Center: {x: 0, y: 0, z: 0.006}
 --- !u!114 &6184290855724997225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attacking: {fileID: 0}
   Damage: 25
+  Hit: 0
 --- !u!54 &687575197170442423
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -107,6 +107,7 @@ public class Attacking : MonoBehaviour
                     ThrowTime = 0f;
                     axeTracker = Axe;
                     axeTracker.GetComponent<AxeWeapon>().attacking = this;
+                    axeTracker.GetComponent<AxeWeapon>().Hit = false;
                     axeTracker.transform.localPosition = new Vector3(0, 0, 0);
                     visuals.StartThrow(axeTracker.transform);
                 }
