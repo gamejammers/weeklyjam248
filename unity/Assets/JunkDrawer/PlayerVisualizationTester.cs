@@ -26,8 +26,6 @@ public class PlayerVisualizationTester
 
 	private Vector3 throwPosition								= Vector3.zero;
 	private Transform throwTarget								= null;
-	private bool stopThrow										= false;
-	private float elapsed										= 0f;
 
 	//
 	// unity callbacks ////////////////////////////////////////////////////////
@@ -100,9 +98,6 @@ public class PlayerVisualizationTester
 			Destroy(throwTarget.gameObject);
 			throwTarget = null;
 		}
-
-		if(Input.GetButtonUp("Fire2"))
-			stopThrow = false;
 
 		character.Move(deltaMove * Time.deltaTime);
 	}

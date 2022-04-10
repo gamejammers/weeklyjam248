@@ -6,9 +6,6 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Metal
-{
-
 public class PlayerVisualController
 	: MonoBehaviour
 {
@@ -193,6 +190,3 @@ public class PlayerVisualController
 		StartCoroutine(LineUpdate());
 	}
 }
-
-}
-
