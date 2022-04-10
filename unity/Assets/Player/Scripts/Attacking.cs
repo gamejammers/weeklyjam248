@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,23 +10,21 @@ public class Attacking : MonoBehaviour
     public float BulletSpread;
 
     //Spawn position of the shot gun and axe
-    public Transform ShotGunPoint;
     public Transform AxePoint;
+    public Transform ThrowPoint;
+    public Transform BulletSpawn;
     private AxeThrow AxeThrow;
 
     //Animators for the weapons
-    private Animator ShotGunAnimator;
-    private Animator AxeAnimator;
+    public PlayerVisualController visuals;
 
     //Variables for throwing time and weather or not you are throwing
     public float ThrowTime;
+    public bool InAttack;
     public bool Throwing;
 
-    //Called to set all the componets that are used
-    private void Awake()
+    void Awake()
     {
-        ShotGunAnimator = ShotGunPoint.GetComponent<Animator>();
-        AxeAnimator = AxePoint.GetComponent<Animator>();
         AxeThrow = AxePoint.GetComponent<AxeThrow>();
     }
 
@@ -35,32 +32,38 @@ public class Attacking : MonoBehaviour
     void Update()
     {
         //Shot gun shooting detection
-        if (Input.GetButtonDown("Fire2"))
-            ShotGunShot();
+        if (Input.GetButtonDown("Fire2") && InAttack == false)
+            StartCoroutine(ShotGunShot());
 
         //The attacking fot the axe
         //Clicking the button swings it
-        if (Input.GetButtonUp("Fire1") && Throwing == false)
+        if (Input.GetButtonUp("Fire1") && InAttack == false)
             SwingAxe();
 
         //Holding the button throws the axe
-        if (Input.GetButton("Fire1") && ThrowTime < 1.2f)
+        if (Input.GetButton("Fire1"))
         {
             //A timer to confirm throwing
             ThrowTime += Time.deltaTime;
             if (ThrowTime > 0.2f)
-                if (Throwing == false)
+            {
+                visuals.StartThrow(transform);
+                if (Throwing == false && ThrowTime > 0.8f)
                     ThrowAxe();
+            }
+
+            if (ThrowTime > 3)
+                AxeThrow.AxeBack(ThrowPoint.position);
         }
         else if (Throwing == true) //if the player lets go of the throw button and the axe comes back
-            AxeThrow.AxeBack(transform.position);
+            AxeThrow.AxeBack(ThrowPoint.position);
 
         //checks if the axes is not hel by the player and than if it is held by the player it sets the local position and if not draws the line for the chain
         if (Throwing == true)
             AxeThrow.DrawChain();
         else
         {
-            AxePoint.localPosition = new Vector3(0.3f, -0.3f, 0.3f);
+            AxePoint.localPosition = new Vector3(0, 0, 0);
             AxePoint.localEulerAngles = new Vector3(0, 0, 0);
         }
     }
@@ -68,43 +71,56 @@ public class Attacking : MonoBehaviour
     //Function for doing multiple things for thorwing the axe
     void ThrowAxe()
     {
+        InAttack = true;
         Throwing = true;
-        AxeAnimator.SetBool("Held", false);
-        AxeAnimator.Play("AxeThrow");
+        visuals.FinishThrow();
+        AxePoint.GetChild(0).gameObject.SetActive(true);
+        //throw axe animation
         AxePoint.parent = transform.parent;
-        AxeThrow.AxeForward(AxePoint.forward);
+        AxeThrow.AxeForward(ThrowPoint.forward);
     }
 
     //After throwing it sets the axe to it's help mode
     public void AxeToHold()
     {
-        AxeAnimator.SetBool("Held", true);
-        AxePoint.parent = ShotGunPoint.parent;
-        ThrowTime = 0;
         Throwing = false;
+        InAttack = false;
+        visuals.Catch();
+        AxePoint.GetChild(0).gameObject.SetActive(false);
+        AxePoint.parent = transform;
+        ThrowTime = 0;
     }
 
     //Swings the axe needs more work
     void SwingAxe()
     {
         AxeToHold();
-        AxeAnimator.Play("AxeSwing");
     }
 
     //Shoots the shotgun
-    void ShotGunShot()
+    IEnumerator ShotGunShot()
     {
+        visuals.Fire();
+        InAttack = true;
         //Sets the average angle of the bullets
-        Vector3 BulletAverage = ShotGunPoint.eulerAngles;
+        Vector3 BulletAverage = BulletSpawn.eulerAngles;
         for (int i = 0; i < 20; i++)
         {
             //Shoots multiple bullets and set the angle of each bullet and send them forward
-            GameObject NewBullet = Instantiate(ShotGunBullet, ShotGunPoint);
-            NewBullet.transform.position += transform.forward * 0.15f;
+            GameObject NewBullet = Instantiate(ShotGunBullet, BulletSpawn);
             NewBullet.transform.SetParent(transform.parent);
             Vector3 bulletAngles = BulletAverage + new Vector3(Random.Range(-BulletSpread, BulletSpread), Random.Range(-BulletSpread, BulletSpread), Random.Range(-BulletSpread, BulletSpread));
             NewBullet.transform.eulerAngles = bulletAngles;
             NewBullet.GetComponent<Rigidbody>().AddForce(NewBullet.transform.forward * 10 * BulletSpeed);
         }
+        yield return new WaitForSeconds(0.5f);
+        InAttack = false;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is Attacking attacking &&
+               base.Equals(obj) &&
+               ThrowTime == attacking.ThrowTime;
     }
 }

@@ -28,13 +28,13 @@ public class AxeThrow : MonoBehaviour
     //Function for when the axe returns and is called as many times as needed before the axe is back
     public void AxeBack(Vector3 player)
     {
-        GetComponent<Animator>().SetBool("Returning", true);
         attacking.ThrowTime = 4;
         Vector3 Direction = transform.position - player;
         float TotalDirection = Mathf.Abs(Direction.x) + Mathf.Abs(Direction.y) + Mathf.Abs(Direction.z);
         if (TotalDirection < 2f)
             attacking.AxeToHold();
         Direction = new Vector3(Direction.x / TotalDirection, Direction.y / TotalDirection, Direction.z / TotalDirection);
+        Debug.Log(Direction);
         rb.velocity = -Direction * AxeSpeed;
     }
 

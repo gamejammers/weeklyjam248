@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
     public float Speed;
     public float sensitivity;
     public float JumpPower;
+    public PlayerVisualController visuals;
 
     private float MouseX;
     private float MouseY;
@@ -44,6 +45,7 @@ public class Movement : MonoBehaviour
         float Forward = Input.GetAxisRaw("Vertical");
         float Horizontal = Input.GetAxisRaw("Horizontal");
         Vector3 Direction = (transform.forward * Forward) + (transform.right * Horizontal);
+        visuals.SetMoveDir(Direction);
 
         //Adds the direction in diffrent ways based on weather the player is falling or not
         if (Input.GetButton("Run"))
