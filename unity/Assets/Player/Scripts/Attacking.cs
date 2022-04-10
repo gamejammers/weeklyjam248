@@ -59,7 +59,10 @@ public class Attacking : MonoBehaviour
 			// 
 			case AxeState.Ready:
 				if(Input.GetButton("Fire1") && CanAttack)
+				{
+					ThrowTime = 0f;
 					axeState = AxeState.CheckSwing;
+				}
 			break;
 
 			//
@@ -67,10 +70,12 @@ public class Attacking : MonoBehaviour
 			// if they keep it held, we are throwing
 			//
 			case AxeState.CheckSwing:
-				if(Input.GetButtonUp("Fire1"))
+				if(!Input.GetButton("Fire1"))
 				{
 					ThrowTime = 0f;
 					axeState = AxeState.SwingAxe;
+					CanAttack = false;
+					visuals.SwingAxe(); // todo swing axe visuals
 				}
 				else if(ThrowTime > 0.2f)
 				{
@@ -83,9 +88,7 @@ public class Attacking : MonoBehaviour
 			// if it was a swing, update it here
 			//
 			case AxeState.SwingAxe:
-				CanAttack = false;
-				//visuals.SwingAxe(); // todo swing axe visuals
-				const float SWING_AXE_DELAY = 2f; // todo make this a variable
+				const float SWING_AXE_DELAY = 0.5f; // todo make this a variable
 				if(ThrowTime > SWING_AXE_DELAY)
 				{
 					CanAttack = true;
@@ -100,6 +103,7 @@ public class Attacking : MonoBehaviour
 				CanAttack = false;
 				if(axeTracker == null)
 				{
+					ThrowTime = 0f;
 					axeTracker = new GameObject("This Empty Game Object Represents the Position of the Axe");
 					visuals.StartThrow(axeTracker.transform);
 				}

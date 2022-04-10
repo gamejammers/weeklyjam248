@@ -89,7 +89,15 @@ public class PlayerVisualController
 		animator.SetTrigger("caught");
 		SetThrowTarget(null);
 	}
+
+	//
+	// ------------------------------------------------------------------------
+	//
 	
+	public void SwingAxe()
+	{
+		animator.SetTrigger("swing");
+	}
 
 	//
 	// animation events ///////////////////////////////////////////////////////
