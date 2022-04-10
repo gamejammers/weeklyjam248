@@ -16,7 +16,7 @@ public class Attacking : MonoBehaviour
     public PlayerVisualController visuals;
 
 	// TRUE if we are actively attacking
-	bool InAttack = false;
+	bool CanAttack = true;
 
 	// axe throwing has several different stages
 	private enum AxeState
@@ -43,7 +43,7 @@ public class Attacking : MonoBehaviour
     void Update()
     {
         //Shot gun shooting detection
-        if (Input.GetButtonDown("Fire2") && InAttack == false)
+        if (Input.GetButtonDown("Fire2") && CanAttack )
             StartCoroutine(ShotGunShot());
 
 		UpdateAxe();
@@ -58,7 +58,7 @@ public class Attacking : MonoBehaviour
 			// we are not using the axe.  start swinging logic
 			// 
 			case AxeState.Ready:
-				if(Input.GetButton("Fire1"))
+				if(Input.GetButton("Fire1") && CanAttack)
 					axeState = AxeState.CheckSwing;
 			break;
 
@@ -83,12 +83,12 @@ public class Attacking : MonoBehaviour
 			// if it was a swing, update it here
 			//
 			case AxeState.SwingAxe:
-				InAttack = true;
+				CanAttack = false;
 				//visuals.SwingAxe(); // todo swing axe visuals
 				const float SWING_AXE_DELAY = 2f; // todo make this a variable
 				if(ThrowTime > SWING_AXE_DELAY)
 				{
-					InAttack = false;
+					CanAttack = true;
 					axeState = AxeState.Ready;
 				}
 			break;
@@ -97,7 +97,7 @@ public class Attacking : MonoBehaviour
 			// if it was a throw, start throwing
 			//
 			case AxeState.StartThrowing:
-				InAttack = true;
+				CanAttack = false;
 				if(axeTracker == null)
 				{
 					axeTracker = new GameObject("This Empty Game Object Represents the Position of the Axe");
@@ -157,7 +157,7 @@ public class Attacking : MonoBehaviour
 				if(ThrowTime > CATCH_DELAY_TIME)
 				{
 					axeState = AxeState.Ready;
-					InAttack = false;
+					CanAttack = true;
 				}
 			break;
 		}
@@ -167,7 +167,7 @@ public class Attacking : MonoBehaviour
     IEnumerator ShotGunShot()
     {
         visuals.Fire();
-        InAttack = true;
+        CanAttack = false;
         //Sets the average angle of the bullets
         Vector3 BulletAverage = BulletSpawn.eulerAngles;
         for (int i = 0; i < 20; i++)
@@ -179,7 +179,7 @@ public class Attacking : MonoBehaviour
             NewBullet.transform.eulerAngles = bulletAngles;
             NewBullet.GetComponent<Rigidbody>().AddForce(NewBullet.transform.forward * 10 * BulletSpeed);
         }
-        yield return new WaitForSeconds(0.5f);
-        InAttack = false;
+        yield return new WaitForSeconds(0.3f);
+        CanAttack = true;
     }
 }
