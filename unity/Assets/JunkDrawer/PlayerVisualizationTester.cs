@@ -22,10 +22,13 @@ public class PlayerVisualizationTester
 	public float lookSpeed										= 10.0f;
 	
 	private CharacterController character;
-	private Vector3 lookDir;
+	private Vector3 lookDir										= new Vector3(0f, 0f, 0f);
 
 	private Vector3 throwPosition								= Vector3.zero;
 	private Transform throwTarget								= null;
+
+	private bool isJumping										= false;
+	private float jumpElapsed									= 0f;
 
 	//
 	// unity callbacks ////////////////////////////////////////////////////////
@@ -35,6 +38,8 @@ public class PlayerVisualizationTester
 	{
 		character = GetComponent<CharacterController>();
 		throwTarget = null;
+		Cursor.lockState = CursorLockMode.Confined;
+		Cursor.visible = false;
 	}
 	
 	//
@@ -64,13 +69,39 @@ public class PlayerVisualizationTester
 			Input.GetAxisRaw("Horizontal"),
 			0f,
 			Input.GetAxisRaw("Vertical")
-		);
+		).normalized;
 
 		player.SetMoveDir(deltaMove);
 
 		deltaMove = cam.transform.TransformDirection(deltaMove);
 		deltaMove *= moveSpeed;
-		deltaMove += Physics.gravity;
+
+		if(Input.GetButtonDown("Jump") && !isJumping && character.isGrounded)
+		{
+			isJumping = true;
+			jumpElapsed = 0f;
+		}
+
+		if(isJumping)
+		{
+			const float JUMP_AIR_TIME = 1f;
+			const float JUMP_SPEED = 9.8f;
+			float perc = jumpElapsed / JUMP_AIR_TIME;
+			deltaMove += Vector3.up * JUMP_SPEED * (1.0f - perc);
+			if(
+				perc >= 2.0f ||
+				(character.isGrounded && jumpElapsed > 0.1f)
+			)
+			{
+				isJumping = false;
+			}
+
+			jumpElapsed += Time.deltaTime;
+		}
+		else
+		{
+			deltaMove += Physics.gravity;
+		}
 
 		//
 		// shooty
