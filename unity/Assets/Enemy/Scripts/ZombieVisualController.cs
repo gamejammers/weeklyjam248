@@ -7,7 +7,7 @@ using UnityEngine;
 using System.Collections;
 
 public class ZombieVisualController
-	: MonoBehaviour
+	: EnemyVisualController
 {
 	//
 	// fields /////////////////////////////////////////////////////////////////
@@ -19,8 +19,9 @@ public class ZombieVisualController
 	// public methods /////////////////////////////////////////////////////////
 	//
 
-	public void SetMoveDir(Vector3 dir)
+	override public void SetMoveDir(Vector3 dir)
 	{
+		base.SetMoveDir(dir);
 		animator.SetBool("isMoving", dir.sqrMagnitude > 0.01);
 	}
 
@@ -28,8 +29,9 @@ public class ZombieVisualController
 	// ------------------------------------------------------------------------
 	//
 	
-	public void Attack()
+	override public void Attack()
 	{
+		base.Attack();
 		animator.SetTrigger("attack");
 	}
 	
@@ -37,8 +39,9 @@ public class ZombieVisualController
 	// ------------------------------------------------------------------------
 	//
 
-	public void TakeDamage()
+	override public void TakeDamage()
 	{
+		base.TakeDamage();
 		animator.SetTrigger("damage");
 	}
 
@@ -46,8 +49,9 @@ public class ZombieVisualController
 	// ------------------------------------------------------------------------
 	//
 	
-	public void SetDead()
+	override public void SetDead()
 	{
+		base.SetDead();
 		animator.SetTrigger("dead");
 	}
 
