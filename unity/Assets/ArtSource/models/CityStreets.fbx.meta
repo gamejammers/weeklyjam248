@@ -17,6 +17,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: HandPrint
+    second: {fileID: 2100000, guid: 945b89e16be5df245a55c880c6a1f350, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Metal_Fence_01_SD
     second: {fileID: 2100000, guid: 87fa7ace89d8b5a44b84e82eda137477, type: 2}
   - first:
