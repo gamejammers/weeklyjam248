@@ -13,6 +13,10 @@ public class ZombieVikingAI : MonoBehaviour
     //The speed at which the attack recharges
     public float AttackSpeed;
 
+    public float RotateSpeed;
+
+    public ZombieVisualController ZombieAnimator;
+
     private float AttackCool;
     private bool InRange;
     private Transform Target;
@@ -27,14 +31,14 @@ public class ZombieVikingAI : MonoBehaviour
     void FixedUpdate()
     {
         //Sets down the attack cooldown if it's above 0
-        if (AttackCool > 0)
+        if (AttackCool >= 0)
             AttackCool -= Time.deltaTime * AttackSpeed;
 
         //Checks for the player so see if it is in Range and also if the enemy has a line of sight
         bool SeePlayer = PlayerCheck();
 
         //if the enemy has a line of sight it will move twoards the player and attempt to attack
-        if (SeePlayer)
+        if (SeePlayer && AttackCool < 0)
         {
             //checks to see if the target to attack is in range and if not it will move twoards them
             bool InRange = MoveTwoards(Target.position);
@@ -49,21 +53,26 @@ public class ZombieVikingAI : MonoBehaviour
     //Checks how close the enemy is to the player and if close enough returns true to ba able to attack else it returns false and moves twoard the target
     private bool MoveTwoards(Vector3 TargetPos)
     {
-        //Gets The dirction from the target to the enemy
         Vector3 Direction = transform.position - TargetPos;
+
+        ZombieAnimator.SetMoveDir(Direction);
+
+        Vector3 direction = Target.position - transform.position;
+        float angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+        Quaternion newQuaternion = Quaternion.Euler(new Vector3(0, angle, 0));
+        transform.rotation = Quaternion.Slerp(transform.rotation, newQuaternion, RotateSpeed * Time.deltaTime);
+
 
         //Gets the total dirction than checks if that direction is within the range of the target
         float TotalDirection = Mathf.Abs(Direction.x) + Mathf.Abs(Direction.z);
-        if (TotalDirection < AttackRange)
-        {
-            //Sets the velocity to 0 well the enemy atempts to attack
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        if (TotalDirection < AttackRange && AttackCool < 0)
             return true;
-        }
 
-        //This converts the dirction into %'s and then * them by speed and sets the y Direction to rb.velocity.y
-        Direction = new Vector3((-Direction.x / TotalDirection) * Speed, rb.velocity.y, (-Direction.z / TotalDirection) * Speed);
-        rb.velocity = Direction;
+        if (TotalDirection > AttackRange)
+            rb.velocity = transform.forward * Speed;
+        else
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+
         return false;
     }
 
@@ -95,7 +104,9 @@ public class ZombieVikingAI : MonoBehaviour
 
     void Attack()
     {
+        AttackCool = 3.5f;
         Debug.Log("Attacking player");
+        ZombieAnimator.Attack();
     }
 
     void OnDrawGizmosSelected()

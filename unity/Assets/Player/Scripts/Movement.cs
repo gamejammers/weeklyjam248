@@ -62,7 +62,7 @@ public class Movement : MonoBehaviour
         if (Mathf.Abs(rb.velocity.x) > MaxSpeed / 4 && Mathf.Abs(rb.velocity.z) > MaxSpeed / 4)
             rb.AddForce(Direction * MaxSpeed * 2);
         else
-            rb.AddForce(Direction * MaxSpeed * 2);
+            rb.AddForce(Direction * MaxSpeed);
 
         rb.velocity = new Vector3(rb.velocity.x * 0.98f, rb.velocity.y, rb.velocity.z * 0.98f);
     }
