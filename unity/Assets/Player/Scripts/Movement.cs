@@ -22,10 +22,7 @@ public class Movement : MonoBehaviour
     public float DashCool;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
+    void Start() { Cursor.lockState = CursorLockMode.Locked; }
 
     // Update is called once per frame
     void Update()
@@ -53,17 +50,29 @@ public class Movement : MonoBehaviour
         Vector3 Direction = (transform.forward * Forward) + (transform.right * Horizontal);
         visuals.SetMoveDir(Direction);
 
-        //Adds the direction in diffrent ways based on weather the player is falling or not
+        ///Adds the direction in diffrent ways based on weather the player is falling or not
         if (Input.GetButton("Run"))
-            MaxSpeed = Speed * 1.5f;
+            MaxSpeed = Speed * 2;
         else
             MaxSpeed = Speed;
 
-        if (Mathf.Abs(rb.velocity.x) > MaxSpeed / 4 && Mathf.Abs(rb.velocity.z) > MaxSpeed / 4)
-            rb.AddForce(Direction * MaxSpeed * 2);
-        else
-            rb.AddForce(Direction * MaxSpeed);
+        if (Mathf.Abs(rb.velocity.x) < Mathf.Abs(Direction.x) * Speed && Mathf.Abs(rb.velocity.z) < Mathf.Abs(Direction.z) * Speed)
+            rb.velocity = Direction * Speed;
 
+
+
+        rb.AddForce(Direction * MaxSpeed);
+        if (Grounded == true)
+        {
+            if (Mathf.Abs(rb.velocity.x) > MaxSpeed || Mathf.Abs(rb.velocity.z) > MaxSpeed)
+            {
+                float XZ = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
+                float XVelocity = Mathf.Abs(rb.velocity.x) / XZ;
+                float ZVelocity = Mathf.Abs(rb.velocity.z) / XZ;
+
+                rb.velocity = new Vector3(Direction.x * XVelocity * MaxSpeed, rb.velocity.y, Direction.z * ZVelocity * MaxSpeed);
+            }
+        }
         rb.velocity = new Vector3(rb.velocity.x * 0.98f, rb.velocity.y, rb.velocity.z * 0.98f);
     }
 

@@ -77,6 +77,9 @@ public class Attacking : MonoBehaviour
                     axeState = AxeState.SwingAxe;
                     CanAttack = false;
                     visuals.SwingAxe(); // todo swing axe visuals
+
+                    if (!CanAttack)
+                        AxeHit();
                 }
                 else if (ThrowTime > 0.2f)
                 {

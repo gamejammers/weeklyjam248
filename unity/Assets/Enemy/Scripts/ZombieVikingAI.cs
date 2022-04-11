@@ -1,23 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieVikingAI : MonoBehaviour
+public class ZombieVikingAI : EnemyAI
 {
-    //How fast the enemy moves
-    public float Speed;
-    //The distance before the enemy sees the player
-    public float Sight;
-    //The range before the enemy attacks
-    public float AttackRange;
-    //The speed at which the attack recharges
-    public float AttackSpeed;
-
-    public float RotateSpeed;
-
+    public int Damage;
     public ZombieVisualController ZombieAnimator;
 
-    private float AttackCool;
     private bool InRange;
     private Transform Target;
     private Rigidbody rb;
@@ -104,9 +91,25 @@ public class ZombieVikingAI : MonoBehaviour
 
     void Attack()
     {
-        AttackCool = 3.5f;
+        AttackCool = 4f;
         Debug.Log("Attacking player");
         ZombieAnimator.Attack();
+
+        float ATTACK_DELAY = 0.7f;
+        Invoke("HitBox", ATTACK_DELAY);
+    }
+
+    void HitBox()
+    {
+        Collider[] AttackCheck = Physics.OverlapSphere(transform.position + transform.forward * 0.8f, 0.8f);
+
+        foreach (Collider collider in AttackCheck)
+        {
+            if (collider.tag == "Player")
+            {
+                collider.gameObject.GetComponent<PlayerHealth>().TakeDamage(Damage, (transform.forward + Vector3.up * 0.5f) * 10);
+            }
+        }
     }
 
     void OnDrawGizmosSelected()
@@ -115,5 +118,15 @@ public class ZombieVikingAI : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, Sight);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + transform.forward * 0.8f, 0.8f);
+    }
+
+    override public void Die()
+    {
+        Invoke("End", 3);
+    }
+
+    void End()
+    {
+        Destroy(gameObject);
     }
 }
