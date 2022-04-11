@@ -40,5 +40,9 @@ http://dig.ccmixter.org/files/ruin_roads/37434 Ft: The High Knowledge Crew
 # Soularflair
 https://freemusicarchive.org/music/Soularflair
 All Soularflair music posted on FMA is released under the
-"Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)" l
-icense, fround here: "https://creativecommons.org/licenses/by-nc-nd/4.0/.
+"Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)"
+license, fround here: "https://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+# Additional Texture Bases from PolyHaven
+https://polyhaven.com/about-contact
+Licensed under Creative Commons CC-0 License
