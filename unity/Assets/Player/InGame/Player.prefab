@@ -103,7 +103,8 @@ MonoBehaviour:
   AxePrefab: {fileID: 6184290855724997225, guid: 5a6103433bfec574281908bec2e385d7, type: 3}
   BulletSpeed: 5
   BulletSpread: 5
-  BulletSpawn: {fileID: 8471402390837123202}
+  SwingDamage: 0
+  SightPos: {fileID: 0}
   visuals: {fileID: 909021130622789654}
   ThrowTime: 0
 --- !u!1 &1664876934768885493
@@ -178,7 +179,7 @@ Camera:
   m_GameObject: {fileID: 7207654175639315537}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2

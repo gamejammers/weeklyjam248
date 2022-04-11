@@ -37,6 +37,21 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Rubble.002
+    second: {fileID: 2100000, guid: 8bc589e10b4df6849a3acbc29262d924, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rubble01
+    second: {fileID: 2100000, guid: 52ebe28c7e612ee4ca0e4f6165fb1820, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WoodenPlank
+    second: {fileID: 2100000, guid: a30e5baadc8d19342965489486a8782f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: conc_base_01
     second: {fileID: 2100000, guid: e19231c2b1404894f9a7354a920b56f4, type: 2}
   - first:
