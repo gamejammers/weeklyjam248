@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeAI : MonoBehaviour
+public class ZombieVikingAI : MonoBehaviour
 {
     //How fast the enemy moves
     public float Speed;
@@ -12,6 +12,10 @@ public class MeleeAI : MonoBehaviour
     public float AttackRange;
     //The speed at which the attack recharges
     public float AttackSpeed;
+
+    public float RotateSpeed;
+
+    public ZombieVisualController ZombieAnimator;
 
     private float AttackCool;
     private bool InRange;
@@ -27,14 +31,14 @@ public class MeleeAI : MonoBehaviour
     void FixedUpdate()
     {
         //Sets down the attack cooldown if it's above 0
-        if (AttackCool > 0)
+        if (AttackCool >= 0)
             AttackCool -= Time.deltaTime * AttackSpeed;
 
         //Checks for the player so see if it is in Range and also if the enemy has a line of sight
         bool SeePlayer = PlayerCheck();
 
         //if the enemy has a line of sight it will move twoards the player and attempt to attack
-        if (SeePlayer)
+        if (SeePlayer && AttackCool < 0)
         {
             //checks to see if the target to attack is in range and if not it will move twoards them
             bool InRange = MoveTwoards(Target.position);
@@ -49,39 +53,26 @@ public class MeleeAI : MonoBehaviour
     //Checks how close the enemy is to the player and if close enough returns true to ba able to attack else it returns false and moves twoard the target
     private bool MoveTwoards(Vector3 TargetPos)
     {
+        Vector3 Direction = transform.position - TargetPos;
+
+        ZombieAnimator.SetMoveDir(Direction);
 
         Vector3 direction = Target.position - transform.position;
         float angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
         Quaternion newQuaternion = Quaternion.Euler(new Vector3(0, angle, 0));
-        transform.rotation = Quaternion.Slerp(transform.rotation, newQuaternion, 4 * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, newQuaternion, RotateSpeed * Time.deltaTime);
 
-        Vector3 Direction = (transform.forward);
-        float MaxSpeed = Speed * 2;
 
         //Gets the total dirction than checks if that direction is within the range of the target
         float TotalDirection = Mathf.Abs(Direction.x) + Mathf.Abs(Direction.z);
-        if (TotalDirection < AttackRange)
-        {
-            //Sets the velocity to 0 well the enemy atempts to attack
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        if (TotalDirection < AttackRange && AttackCool < 0)
             return true;
-        }
 
+        if (TotalDirection > AttackRange)
+            rb.velocity = transform.forward * Speed;
+        else
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
 
-        if (Mathf.Abs(rb.velocity.x) < Mathf.Abs(Direction.x) * Speed && Mathf.Abs(rb.velocity.z) < Mathf.Abs(Direction.z) * Speed)
-            rb.velocity = Direction * Speed;
-
-        rb.AddForce(Direction * MaxSpeed);
-
-        if (Mathf.Abs(rb.velocity.x) > MaxSpeed || Mathf.Abs(rb.velocity.z) > MaxSpeed)
-        {
-            float XZ = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
-            float XVelocity = Mathf.Abs(rb.velocity.x) / XZ;
-            float ZVelocity = Mathf.Abs(rb.velocity.z) / XZ;
-
-            rb.velocity = new Vector3(Direction.x * XVelocity * MaxSpeed, rb.velocity.y, Direction.z * ZVelocity * MaxSpeed);
-        }
-        rb.velocity = new Vector3(rb.velocity.x * 0.98f, rb.velocity.y, rb.velocity.z * 0.98f);
         return false;
     }
 
@@ -113,7 +104,9 @@ public class MeleeAI : MonoBehaviour
 
     void Attack()
     {
+        AttackCool = 3.5f;
         Debug.Log("Attacking player");
+        ZombieAnimator.Attack();
     }
 
     void OnDrawGizmosSelected()
