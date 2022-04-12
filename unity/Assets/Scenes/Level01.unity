@@ -156,15 +156,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267361, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.63
+      value: 182.95
       objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267361, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.507
+      value: -19
       objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267361, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 18.14
+      value: -387.96
       objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267361, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -276,6 +276,18 @@ PrefabInstance:
       propertyPath: jukebox
       value: 
       objectReference: {fileID: 1455719020}
+    - target: {fileID: 1912436263809919435, guid: 39a81bb68b387d6489f500c2c77b08d9, type: 3}
+      propertyPath: tracks.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1912436263809919435, guid: 39a81bb68b387d6489f500c2c77b08d9, type: 3}
+      propertyPath: tracks.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: d3954a1aca64c044795921e825f43c47, type: 3}
+    - target: {fileID: 1912436263809919435, guid: 39a81bb68b387d6489f500c2c77b08d9, type: 3}
+      propertyPath: tracks.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: bae21fcf1e9c0ca4791d0a6ffc41a02e, type: 3}
     - target: {fileID: 3840082724356057313, guid: 39a81bb68b387d6489f500c2c77b08d9, type: 3}
       propertyPath: m_text
       value: METAL
