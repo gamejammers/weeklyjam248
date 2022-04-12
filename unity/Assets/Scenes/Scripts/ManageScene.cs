@@ -16,6 +16,16 @@ public class ManageScene : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+	public void Cutscene()
+	{
+		SceneManager.LoadScene(2);
+	}
+
+	public void GameScene()
+	{
+		SceneManager.LoadScene(1);
+	}
+
     // Starts the game
     public void NextLevel()
     {
