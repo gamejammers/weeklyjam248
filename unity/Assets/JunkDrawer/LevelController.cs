@@ -75,12 +75,23 @@ public class LevelController
 	{
 
 		var controller = player.transform.parent.GetComponent<CharacterController>();
+		var rb = player.transform.parent.GetComponent<Rigidbody>();
+		Vector3 diff = button2.transform.position - player.transform.position;
 		if(controller != null)
 		{
 			controller.enabled = false;
-			Vector3 diff = button2.transform.position - controller.transform.position;
 			controller.transform.position = teletarget.position - diff;
 			controller.enabled = true;
+		}
+		else if(rb != null)
+		{
+			rb.isKinematic = true;
+			rb.transform.position = teletarget.position - diff;
+			rb.isKinematic = false;
+		}
+		else
+		{
+			player.transform.position = teletarget.position - diff;
 		}
 
 		elevatorDone = true;
@@ -107,7 +118,7 @@ public class LevelController
 		}
 
 		// wait for elevator music
-		const float ELEVATOR_WAIT_TIME = 5f;
+		const float ELEVATOR_WAIT_TIME = 28f;
 		yield return new WaitForSeconds(ELEVATOR_WAIT_TIME);
 		
 		jukebox.player.volume = 0f;
@@ -132,7 +143,7 @@ public class LevelController
 
 	private IEnumerator EndGame()
 	{
-		const float FADE_IN_TIME = 10f;
+		const float FADE_IN_TIME = 5f;
 		const float WAIT_TIME = 0.1f;
 		var wait = new WaitForSeconds(WAIT_TIME);
 		float elapsed = 0f;
@@ -145,10 +156,8 @@ public class LevelController
 		}
 
 		finished = true;
-		
-		while(!restart)
-			yield return wait;
 
+		yield return new WaitForSeconds(5f);
 		yield return SceneManager.LoadSceneAsync(0);
 	}
 	
@@ -161,19 +170,6 @@ public class LevelController
 	{
 		instance = this;
 	}
-
-	//
-	// ------------------------------------------------------------------------
-	//
-
-	protected virtual void Update()
-	{
-		if(finished && Input.GetKey(KeyCode.E))
-		{
-			restart = true;
-		}
-	}
-	
 
 	//
 	// ------------------------------------------------------------------------

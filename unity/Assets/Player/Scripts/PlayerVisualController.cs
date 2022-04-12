@@ -192,6 +192,7 @@ public class PlayerVisualController
 
 	protected virtual void Awake()
 	{
+		line = GetComponent<LineRenderer>();
 		animator = GetComponent<Animator>();
 		segments = new Vector3[segmentCount];
 

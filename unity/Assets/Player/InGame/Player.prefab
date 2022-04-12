@@ -104,7 +104,8 @@ MonoBehaviour:
   BulletSpeed: 5
   BulletSpread: 5
   SwingDamage: 0
-  SightPos: {fileID: 0}
+  bulletSpawn: {fileID: 8471402390837123202}
+  SightPos: {fileID: 3035336045834030177}
   visuals: {fileID: 909021130622789654}
   ThrowTime: 0
 --- !u!1 &1664876934768885493

@@ -127,6 +127,8 @@ public class IntroPlayer
 
 	protected virtual void Awake()
 	{
+		Cursor.lockState = CursorLockMode.None;
+
 		foreach(CanvasGroup cg in story)
 		{
 			cg.alpha = 0f;
