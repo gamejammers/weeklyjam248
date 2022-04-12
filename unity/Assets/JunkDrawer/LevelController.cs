@@ -29,11 +29,17 @@ public class LevelController
 
 	public CanvasGroup canvasGroup								= null;
 
+	public Transform demon;
+	public Transform demonStart;
+	public Transform demonEnd;
+	public AudioClip demonSfx;
+
 
 	bool doorsOpen = false;
 	bool elevatorDone = false;
 	bool finished = false;
 	bool restart = false;
+	bool doDemonMotion = false;
 
 	//
 	// public methods /////////////////////////////////////////////////////////
@@ -147,6 +153,25 @@ public class LevelController
 		const float WAIT_TIME = 0.1f;
 		var wait = new WaitForSeconds(WAIT_TIME);
 		float elapsed = 0f;
+
+		const float FLY_IN_TIME = 1.5f;
+		while(elapsed < FLY_IN_TIME)
+		{
+			float perc = elapsed / FLY_IN_TIME;
+			demon.position = Vector3.Lerp(demonStart.position, demonEnd.position, perc);
+			demon.rotation = Quaternion.Lerp(demonStart.rotation, demonEnd.rotation, perc);
+			yield return new WaitForSeconds(0f);
+			elapsed += Time.deltaTime;
+		}
+
+		demon.position = demonEnd.position;
+		demon.rotation = demonEnd.rotation;
+		jukebox.player.PlayOneShot(demonSfx);
+
+		doDemonMotion = true;
+
+		yield return new WaitForSeconds(1f);
+
 		while(elapsed < FADE_IN_TIME)
 		{
 			yield return wait;
@@ -160,7 +185,6 @@ public class LevelController
 		yield return new WaitForSeconds(5f);
 		yield return SceneManager.LoadSceneAsync(0);
 	}
-	
 
 	//
 	// unity callbacks ////////////////////////////////////////////////////////
@@ -170,6 +194,23 @@ public class LevelController
 	{
 		instance = this;
 	}
+
+	//
+	// ------------------------------------------------------------------------
+	//
+
+	protected virtual void Update()
+	{
+		if(doDemonMotion)
+		{
+			demon.position = demonEnd.position + new Vector3( 
+				Mathf.Sin(Time.time)*10.0f,
+				Mathf.Cos(Time.time)*10.0f,
+				Mathf.Sin(Time.time)*10.0f
+			);
+		}
+	}
+	
 
 	//
 	// ------------------------------------------------------------------------
