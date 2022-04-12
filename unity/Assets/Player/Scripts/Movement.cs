@@ -94,7 +94,7 @@ public class Movement : MonoBehaviour
             MouseY -= sensitivity * Time.deltaTime * 50;
 
         //Sets the camera after all the movement has been done
-        Camera.position = transform.position;
+        Camera.position = transform.position + Vector3.up * 2.0f;
         Camera.eulerAngles = new Vector3(MouseY, transform.eulerAngles.y, 0);
     }
 

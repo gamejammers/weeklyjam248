@@ -7,6 +7,16 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Arcade
+    second: {fileID: 2100000, guid: 4e9eddeed256a6749b06cc27de2454db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BrutalLegendGame
+    second: {fileID: 2100000, guid: 5c599095c10d14a4f8299a374f97e3a4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Metal_Fence_01_SD
     second: {fileID: 2100000, guid: 87fa7ace89d8b5a44b84e82eda137477, type: 2}
   - first:
