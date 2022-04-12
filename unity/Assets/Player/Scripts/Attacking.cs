@@ -160,7 +160,7 @@ public class Attacking : MonoBehaviour
             case AxeState.Returning:
                 Vector3 diff = transform.position - axeTracker.transform.position;
                 float dist2 = (Mathf.Abs(diff.x) + Mathf.Abs(diff.y) + Mathf.Abs(diff.z));// orginal was diff.sqrMagnitude;
-                if (dist2 < 0.02f)
+                if (dist2 < 0.07f)
                 {
                     ThrowTime = 0;
                     visuals.Catch();

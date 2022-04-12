@@ -339,6 +339,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 841076827}
+    - target: {fileID: 643762611920297111, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219740951687702670, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 1023
+      objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267361, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -399,9 +407,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1441453008271267368, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267370, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: Speed
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1441453008271267370, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
       propertyPath: JumpPower
@@ -421,63 +433,6 @@ PrefabInstance:
       objectReference: {fileID: 832601530}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0732cfa85ab7d4948bb39d023003fba4, type: 3}
---- !u!1001 &379406999
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6843076513153236102, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_Name
-      value: Zombie Viking (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 51.000008
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -20.249996
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
 --- !u!1001 &632030871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -900,7 +855,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &841076827
 MonoBehaviour:
@@ -1230,6 +1185,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5240699010839888833, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
+      propertyPath: Speed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5240699010839888833, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
+      propertyPath: RotateSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6843076513153236102, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
       propertyPath: m_Name
       value: Zombie Viking
@@ -1239,12 +1202,24 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6843076513153236111, guid: 3b59b86dfa4eed542b7327df35be169d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1405,3 +1380,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2019898025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019898017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3861a894861948e40a900329cd70f5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 100
+  CurrentHealth: 0
+  DeadUI: {fileID: 0}

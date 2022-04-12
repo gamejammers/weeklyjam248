@@ -21,7 +21,6 @@ public class PlayerHealth : MonoBehaviour
         CurrentHealth -= dam;
         if (CurrentHealth <= 0)
         {
-            DeadUI.SetActive(true);
             GetComponent<Movement>().Speed = 0;
             GetComponent<Movement>().sensitivity = 0;
             Sounds.Play_death();

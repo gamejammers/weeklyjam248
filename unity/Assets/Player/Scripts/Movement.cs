@@ -51,6 +51,11 @@ public class Movement : MonoBehaviour
         float Forward = Input.GetAxisRaw("Vertical");
         float Horizontal = Input.GetAxisRaw("Horizontal");
         Vector3 Direction = (transform.forward * Forward) + (transform.right * Horizontal);
+        if (Direction.x > 1)
+            Direction.x = 1;
+
+        if (Direction.z > 1)
+            Direction.z = 1;
         visuals.SetMoveDir(Direction);
 
         //The speed used for the player when moving
@@ -63,19 +68,11 @@ public class Movement : MonoBehaviour
             MaxSpeed = Speed;
 
 
-        rb.AddForce(Direction * Speed * 1.5f);
-        if (Grounded == true)
-        {
-            if (Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z) > MaxSpeed)
-            {
-                float XZ = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
-                float XVelocity = Mathf.Abs(rb.velocity.x) / XZ;
-                float ZVelocity = Mathf.Abs(rb.velocity.z) / XZ;
+        rb.AddForce(Direction * Speed * 4f);
+        if (Mathf.Abs(rb.velocity.x) > MaxSpeed || Mathf.Abs(rb.velocity.z) > MaxSpeed)
+            rb.velocity = new Vector3(Direction.x * MaxSpeed, rb.velocity.y, Direction.z * MaxSpeed);
 
-                rb.velocity = new Vector3(Direction.x * XVelocity * MaxSpeed, rb.velocity.y, Direction.z * ZVelocity * MaxSpeed);
-            }
-        }
-        rb.velocity = new Vector3(rb.velocity.x * 0.98f, rb.velocity.y, rb.velocity.z * 0.98f);
+        rb.velocity = new Vector3(rb.velocity.x * 0.97f, rb.velocity.y, rb.velocity.z * 0.97f);
     }
 
     //Moves the camera and is called in update
@@ -106,10 +103,13 @@ public class Movement : MonoBehaviour
 
         //Checks if any of the colliders was the ground 
         Grounded = false;
-        for (int i = 0; i < GroundCheck.Length; i++)
+        foreach (Collider Check in GroundCheck)
         {
-            if (GroundCheck[i].gameObject.name != gameObject.name)
+            if (Check.gameObject.name != gameObject.name && !Check.isTrigger)
+            {
                 Grounded = true;
+                Debug.Log(Check.gameObject.name);
+            }
         }
 
         if (Grounded == true)
