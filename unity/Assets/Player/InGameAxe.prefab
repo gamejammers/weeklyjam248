@@ -50,6 +50,8 @@ MonoBehaviour:
     m_Bits: 257
   Damage: 25
   Hit: 0
+  AxeHitBox: {x: 0.25, y: 0.15, z: 0.25}
+  OffSet: -0.5
 --- !u!54 &687575197170442423
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -12,17 +12,19 @@ public class EnemyHealth : MonoBehaviour
     void Awake()
     {
         CurrentHealth = MaxHealth;
+
     }
 
     public void TakeDamage(int dam)
     {
         CurrentHealth -= dam;
-        enemyAI.AttackCool = 1;
+        enemyAI.AttackCool = 2f;
+        GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         if (CurrentHealth >= 0)
             enemyVisualController.TakeDamage();
         else
         {
-            enemyAI.AttackCool = 3;
+            enemyAI.AttackCool = 4;
             enemyVisualController.SetDead();
             enemyAI.Die();
         }

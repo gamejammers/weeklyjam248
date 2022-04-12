@@ -140,11 +140,8 @@ public class Movement : MonoBehaviour
         Dashing = true;
         DashCool = 1;
         float Forward = Input.GetAxisRaw("Vertical");
-        Vector3 DashDirection;
-        if (Forward >= 0)
-            DashDirection = transform.forward * Speed * 3;
-        else
-            DashDirection = -transform.forward * Speed * 3;
+        float Horizontal = Input.GetAxisRaw("Horizontal");
+        Vector3 DashDirection = (transform.forward * Forward * Speed * 3) + (transform.right * Horizontal * Speed * 3);
 
         rb.velocity = new Vector3(DashDirection.x, -1, DashDirection.z);
         yield return new WaitForSeconds(0.25f);

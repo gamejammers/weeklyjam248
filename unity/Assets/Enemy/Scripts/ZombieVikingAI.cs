@@ -25,15 +25,19 @@ public class ZombieVikingAI : EnemyAI
         bool SeePlayer = PlayerCheck();
 
         //if the enemy has a line of sight it will move twoards the player and attempt to attack
-        if (SeePlayer && AttackCool < 0)
+        if (SeePlayer)
         {
             //checks to see if the target to attack is in range and if not it will move twoards them
-            bool InRange = MoveTwoards(Target.position);
+            bool InRange = false;
+            if (AttackCool <= 0)
+                InRange = MoveTwoards(Target.position);
 
             //If the enemy is inrange and if the attack cool is less than 0
             if (InRange && AttackCool <= 0)
                 Attack();
         }
+        else
+            ZombieAnimator.SetMoveDir(new Vector3(0, 0, 0));
     }
 
     //Checks how close the enemy is to the player and if close enough returns true to ba able to attack else it returns false and moves twoard the target
@@ -96,7 +100,7 @@ public class ZombieVikingAI : EnemyAI
         {
             if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                AttackCool = 2.9f;
+                AttackCool = 2f;
                 Debug.Log("Attacking player");
                 ZombieAnimator.Attack();
 
@@ -129,6 +133,7 @@ public class ZombieVikingAI : EnemyAI
 
     override public void Die()
     {
+        gameObject.layer = LayerMask.NameToLayer("Dead");
         Invoke("End", 3);
     }
 

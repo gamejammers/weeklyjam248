@@ -10,6 +10,7 @@ public class Attacking : MonoBehaviour
     public float BulletSpeed;
     public float BulletSpread;
     public int SwingDamage;
+    public Transform bulletSpawn;
 
     //Spawn position of the shot gun and axe
     public Transform SightPos;
@@ -44,11 +45,12 @@ public class Attacking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Axe state Updater
+        UpdateAxe();
+
         //Shot gun shooting detection
         if (Input.GetButton("Fire1") && CanAttack)
             StartCoroutine(ShotGunShot());
-
-        UpdateAxe();
     }
 
     private void UpdateAxe()
@@ -61,6 +63,7 @@ public class Attacking : MonoBehaviour
             case AxeState.Ready:
                 if (Input.GetButton("Fire2") && CanAttack)
                 {
+                    CanAttack = false;
                     ThrowTime = 0f;
                     axeState = AxeState.CheckSwing;
                 }
@@ -75,7 +78,6 @@ public class Attacking : MonoBehaviour
                 {
                     ThrowTime = 0f;
                     axeState = AxeState.SwingAxe;
-                    CanAttack = false;
                     visuals.SwingAxe(); // todo swing axe visuals
 
                     if (!CanAttack)
@@ -92,12 +94,14 @@ public class Attacking : MonoBehaviour
             // if it was a swing, update it here
             //
             case AxeState.SwingAxe:
-                const float SWING_AXE_DELAY = 0.5f; // todo make this a variable
+                const float SWING_AXE_DELAY = 1.2f; // todo make this a variable
                 if (ThrowTime > SWING_AXE_DELAY)
                 {
                     CanAttack = true;
                     axeState = AxeState.Ready;
                 }
+                else
+                    CanAttack = false;
                 break;
 
             //
@@ -108,7 +112,7 @@ public class Attacking : MonoBehaviour
                 if (axeTracker == null)
                 {
                     ThrowTime = 0f;
-                    axeTracker = Instantiate(AxePrefab, SightPos.position - (SightPos.forward * 0.5f), SightPos.rotation) as AxeWeapon;
+                    axeTracker = Instantiate(AxePrefab, SightPos.position - (SightPos.forward * 1f), SightPos.rotation) as AxeWeapon;
                     axeTracker.attacking = this;
                     axeTracker.Hit = false;
                     visuals.StartThrow(axeTracker.transform);
@@ -117,8 +121,7 @@ public class Attacking : MonoBehaviour
                 if (ThrowTime > 1f)
                 {
                     ThrowTime = 0f;
-                    axeTracker.transform.position = SightPos.position - (SightPos.forward * 0.5f);
-                    Debug.Log("player pos is " + transform.position + " and Axe pos is " + axeTracker.transform.position);
+                    axeTracker.transform.position = SightPos.position - (SightPos.forward * 1f);
                     axeTracker.transform.rotation = SightPos.rotation;
                     axeState = AxeState.Throwing;
                 }
@@ -196,13 +199,13 @@ public class Attacking : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             //Shoots multiple bullets and set the angle of each bullet and send them forward
-            GameObject NewBullet = Instantiate(ShotGunBullet, SightPos);
+            GameObject NewBullet = Instantiate(ShotGunBullet, bulletSpawn);
             NewBullet.transform.SetParent(transform.parent);
             Vector3 bulletAngles = BulletAverage + new Vector3(Random.Range(-BulletSpread, BulletSpread), Random.Range(-BulletSpread, BulletSpread), Random.Range(-BulletSpread, BulletSpread));
             NewBullet.transform.eulerAngles = bulletAngles;
             NewBullet.GetComponent<Rigidbody>().AddForce(NewBullet.transform.forward * 10 * BulletSpeed);
         }
-        yield return new WaitForSeconds(2.2f);
+        yield return new WaitForSeconds(1.3f);
         CanAttack = true;
     }
 }
