@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
     public float sensitivity;
     public float JumpPower;
     public PlayerVisualController visuals;
+    private PlayerSounds Sounds;
 
     private float MouseX;
     private float MouseY;
@@ -20,8 +21,11 @@ public class Movement : MonoBehaviour
     public bool Dashing;
     public float DashCool;
 
-    // Start is called before the first frame update
-    void Start() { Cursor.lockState = CursorLockMode.Locked; }
+    void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Sounds = GetComponent<PlayerSounds>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -133,6 +137,7 @@ public class Movement : MonoBehaviour
             rb.AddForce(new Vector3(0, JumpPower * 10, 0));
             yield return new WaitForSeconds(0.01f);
         }
+        Sounds.Play_Jump();
     }
 
     IEnumerator Dash()

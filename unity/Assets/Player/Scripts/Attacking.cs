@@ -17,6 +17,7 @@ public class Attacking : MonoBehaviour
 
     //Animators for the weapons
     public PlayerVisualController visuals;
+    private PlayerSounds Sounds;
 
     // TRUE if we are actively attacking
     bool CanAttack = true;
@@ -41,6 +42,11 @@ public class Attacking : MonoBehaviour
     // visuals, so it can draw the axe and the chain.  We can also use it to
     // detect collisions and deal damage.
     private AxeWeapon axeTracker = null;
+
+    void Awake()
+    {
+        Sounds = GetComponent<PlayerSounds>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -116,10 +122,12 @@ public class Attacking : MonoBehaviour
                     axeTracker.attacking = this;
                     axeTracker.Hit = false;
                     visuals.StartThrow(axeTracker.transform);
+                    Sounds.Play_AxeSwing();
                 }
 
                 if (ThrowTime > 1f)
                 {
+                    Sounds.Play_AxeChains();
                     ThrowTime = 0f;
                     axeTracker.transform.position = SightPos.position - (SightPos.forward * 1f);
                     axeTracker.transform.rotation = SightPos.rotation;
@@ -159,6 +167,7 @@ public class Attacking : MonoBehaviour
                     Destroy(axeTracker.gameObject);
                     axeTracker = null;
                     axeState = AxeState.Catch;
+                    Sounds.Play_AxeChains();
                 }
                 else
                 {
@@ -181,6 +190,7 @@ public class Attacking : MonoBehaviour
 
     void AxeHit()
     {
+        Sounds.Play_AxeSwing();
         Collider[] EnemyCheck = Physics.OverlapBox(transform.position + transform.forward * 0.5f, new Vector3(0.3f, 0.7f, 1), Quaternion.identity, LayerMask.GetMask("Enemy"));
 
         foreach (Collider Check in EnemyCheck)
@@ -198,6 +208,7 @@ public class Attacking : MonoBehaviour
         Vector3 BulletAverage = SightPos.eulerAngles;
         for (int i = 0; i < 20; i++)
         {
+            Sounds.Play_ShotGunShot();
             //Shoots multiple bullets and set the angle of each bullet and send them forward
             GameObject NewBullet = Instantiate(ShotGunBullet, bulletSpawn);
             NewBullet.transform.SetParent(transform.parent);
