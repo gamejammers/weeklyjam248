@@ -8,10 +8,12 @@ public class ZombieVikingAI : EnemyAI
     private bool InRange;
     private Transform Target;
     private Rigidbody rb;
+    private EnemySounds sounds;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        sounds = GetComponent<EnemySounds>();
     }
 
     // Update is called once per frame

@@ -8,11 +8,12 @@ public class EnemyHealth : MonoBehaviour
     public int CurrentHealth;
     public EnemyVisualController enemyVisualController;
     public EnemyAI enemyAI;
+    private EnemySounds sounds;
 
     void Awake()
     {
         CurrentHealth = MaxHealth;
-
+        sounds = GetComponent<EnemySounds>();
     }
 
     public void TakeDamage(int dam)
@@ -26,6 +27,7 @@ public class EnemyHealth : MonoBehaviour
         {
             enemyAI.AttackCool = 4;
             enemyVisualController.SetDead();
+            sounds.Play_death();
             enemyAI.Die();
         }
     }

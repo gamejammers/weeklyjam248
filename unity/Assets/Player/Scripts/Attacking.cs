@@ -216,7 +216,7 @@ public class Attacking : MonoBehaviour
             NewBullet.transform.eulerAngles = bulletAngles;
             NewBullet.GetComponent<Rigidbody>().AddForce(NewBullet.transform.forward * 10 * BulletSpeed);
         }
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(1.6f);
         CanAttack = true;
     }
 }
