@@ -33,6 +33,8 @@ public class PlayerVisualController
 	private GameObject thrownAxe								= null;
 	public Vector3[] segments									= null;
 
+	private LevelController level								= null;
+
 	//
 	// public methods /////////////////////////////////////////////////////////
 	//
@@ -191,10 +193,31 @@ public class PlayerVisualController
 	protected virtual void Awake()
 	{
 		animator = GetComponent<Animator>();
-		line = GetComponent<LineRenderer>();
-		line.enabled = false;
 		segments = new Vector3[segmentCount];
 
 		StartCoroutine(LineUpdate());
+	}
+
+	//
+	// ------------------------------------------------------------------------
+	//
+
+	protected virtual void Start()
+	{
+		level = LevelController.instance;
+		if(level)
+			level.RegisterPlayer(this);
+	}
+
+	//
+	// ------------------------------------------------------------------------
+	//
+
+	protected virtual void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.E) && level)
+		{
+			level.Use();
+		}
 	}
 }
