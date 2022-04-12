@@ -31,10 +31,9 @@ public class ZombieVikingAI : EnemyAI
             bool InRange = MoveTwoards(Target.position);
 
             //If the enemy is inrange and if the attack cool is less than 0
-            if (InRange && AttackCool < 0)
+            if (InRange && AttackCool <= 0)
                 Attack();
         }
-
     }
 
     //Checks how close the enemy is to the player and if close enough returns true to ba able to attack else it returns false and moves twoard the target
@@ -78,8 +77,6 @@ public class ZombieVikingAI : EnemyAI
                 Ray ray = new Ray(transform.position, direction);
                 RaycastHit hit;
 
-                Debug.DrawRay(transform.position, direction, Color.red);
-
                 if (Physics.Raycast(ray, out hit))
                     if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
                         return true;
@@ -91,12 +88,22 @@ public class ZombieVikingAI : EnemyAI
 
     void Attack()
     {
-        AttackCool = 4f;
-        Debug.Log("Attacking player");
-        ZombieAnimator.Attack();
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+        Debug.DrawRay(transform.position, transform.forward, Color.red);
 
-        float ATTACK_DELAY = 0.7f;
-        Invoke("HitBox", ATTACK_DELAY);
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                AttackCool = 2.9f;
+                Debug.Log("Attacking player");
+                ZombieAnimator.Attack();
+
+                float ATTACK_DELAY = 0.7f;
+                Invoke("HitBox", ATTACK_DELAY);
+            }
+        }
     }
 
     void HitBox()

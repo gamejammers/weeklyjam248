@@ -14,7 +14,6 @@ public class Movement : MonoBehaviour
     private float MouseX;
     private float MouseY;
 
-    private float MaxSpeed;
     private bool Grounded;
     private bool Jumping;
     private float JumpCool;
@@ -50,21 +49,20 @@ public class Movement : MonoBehaviour
         Vector3 Direction = (transform.forward * Forward) + (transform.right * Horizontal);
         visuals.SetMoveDir(Direction);
 
+        //The speed used for the player when moving
+        float MaxSpeed;
+
         ///Adds the direction in diffrent ways based on weather the player is falling or not
         if (Input.GetButton("Run"))
-            MaxSpeed = Speed * 2;
+            MaxSpeed = Speed * 1.5f;
         else
             MaxSpeed = Speed;
 
-        if (Mathf.Abs(rb.velocity.x) < Mathf.Abs(Direction.x) * Speed && Mathf.Abs(rb.velocity.z) < Mathf.Abs(Direction.z) * Speed)
-            rb.velocity = Direction * Speed;
 
-
-
-        rb.AddForce(Direction * MaxSpeed);
+        rb.AddForce(Direction * Speed * 1.5f);
         if (Grounded == true)
         {
-            if (Mathf.Abs(rb.velocity.x) > MaxSpeed || Mathf.Abs(rb.velocity.z) > MaxSpeed)
+            if (Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z) > MaxSpeed)
             {
                 float XZ = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
                 float XVelocity = Mathf.Abs(rb.velocity.x) / XZ;

@@ -108,7 +108,7 @@ public class Attacking : MonoBehaviour
                 if (axeTracker == null)
                 {
                     ThrowTime = 0f;
-                    axeTracker = Instantiate(AxePrefab, SightPos.position, SightPos.rotation) as AxeWeapon;
+                    axeTracker = Instantiate(AxePrefab, SightPos.position - (SightPos.forward * 0.5f), SightPos.rotation) as AxeWeapon;
                     axeTracker.attacking = this;
                     axeTracker.Hit = false;
                     visuals.StartThrow(axeTracker.transform);
@@ -117,7 +117,8 @@ public class Attacking : MonoBehaviour
                 if (ThrowTime > 1f)
                 {
                     ThrowTime = 0f;
-                    axeTracker.transform.position = SightPos.position + transform.forward;
+                    axeTracker.transform.position = SightPos.position - (SightPos.forward * 0.5f);
+                    Debug.Log("player pos is " + transform.position + " and Axe pos is " + axeTracker.transform.position);
                     axeTracker.transform.rotation = SightPos.rotation;
                     axeState = AxeState.Throwing;
                 }
@@ -147,8 +148,8 @@ public class Attacking : MonoBehaviour
             //
             case AxeState.Returning:
                 Vector3 diff = transform.position - axeTracker.transform.position;
-                float dist2 = diff.sqrMagnitude;
-                if (dist2 < 1f)
+                float dist2 = (Mathf.Abs(diff.x) + Mathf.Abs(diff.y) + Mathf.Abs(diff.z));// orginal was diff.sqrMagnitude;
+                if (dist2 < 0.02f)
                 {
                     ThrowTime = 0;
                     visuals.Catch();
