@@ -10,19 +10,22 @@ public class Movement : MonoBehaviour
     public float sensitivity;
     public float JumpPower;
     public PlayerVisualController visuals;
+    private PlayerSounds Sounds;
 
     private float MouseX;
     private float MouseY;
 
-    private float MaxSpeed;
     private bool Grounded;
     private bool Jumping;
     private float JumpCool;
     public bool Dashing;
     public float DashCool;
 
-    // Start is called before the first frame update
-    void Start() { Cursor.lockState = CursorLockMode.Locked; }
+    void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Sounds = GetComponent<PlayerSounds>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -50,21 +53,20 @@ public class Movement : MonoBehaviour
         Vector3 Direction = (transform.forward * Forward) + (transform.right * Horizontal);
         visuals.SetMoveDir(Direction);
 
+        //The speed used for the player when moving
+        float MaxSpeed;
+
         ///Adds the direction in diffrent ways based on weather the player is falling or not
         if (Input.GetButton("Run"))
-            MaxSpeed = Speed * 2;
+            MaxSpeed = Speed * 1.5f;
         else
             MaxSpeed = Speed;
 
-        if (Mathf.Abs(rb.velocity.x) < Mathf.Abs(Direction.x) * Speed && Mathf.Abs(rb.velocity.z) < Mathf.Abs(Direction.z) * Speed)
-            rb.velocity = Direction * Speed;
 
-
-
-        rb.AddForce(Direction * MaxSpeed);
+        rb.AddForce(Direction * Speed * 1.5f);
         if (Grounded == true)
         {
-            if (Mathf.Abs(rb.velocity.x) > MaxSpeed || Mathf.Abs(rb.velocity.z) > MaxSpeed)
+            if (Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z) > MaxSpeed)
             {
                 float XZ = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z);
                 float XVelocity = Mathf.Abs(rb.velocity.x) / XZ;
@@ -135,6 +137,7 @@ public class Movement : MonoBehaviour
             rb.AddForce(new Vector3(0, JumpPower * 10, 0));
             yield return new WaitForSeconds(0.01f);
         }
+        Sounds.Play_Jump();
     }
 
     IEnumerator Dash()
@@ -142,11 +145,8 @@ public class Movement : MonoBehaviour
         Dashing = true;
         DashCool = 1;
         float Forward = Input.GetAxisRaw("Vertical");
-        Vector3 DashDirection;
-        if (Forward >= 0)
-            DashDirection = transform.forward * Speed * 3;
-        else
-            DashDirection = -transform.forward * Speed * 3;
+        float Horizontal = Input.GetAxisRaw("Horizontal");
+        Vector3 DashDirection = (transform.forward * Forward * Speed * 3) + (transform.right * Horizontal * Speed * 3);
 
         rb.velocity = new Vector3(DashDirection.x, -1, DashDirection.z);
         yield return new WaitForSeconds(0.25f);

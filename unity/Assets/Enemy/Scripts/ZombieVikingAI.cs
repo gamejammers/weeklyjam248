@@ -8,10 +8,12 @@ public class ZombieVikingAI : EnemyAI
     private bool InRange;
     private Transform Target;
     private Rigidbody rb;
+    private EnemySounds sounds;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        sounds = GetComponent<EnemySounds>();
     }
 
     // Update is called once per frame
@@ -25,16 +27,19 @@ public class ZombieVikingAI : EnemyAI
         bool SeePlayer = PlayerCheck();
 
         //if the enemy has a line of sight it will move twoards the player and attempt to attack
-        if (SeePlayer && AttackCool < 0)
+        if (SeePlayer)
         {
             //checks to see if the target to attack is in range and if not it will move twoards them
-            bool InRange = MoveTwoards(Target.position);
+            bool InRange = false;
+            if (AttackCool <= 0)
+                InRange = MoveTwoards(Target.position);
 
             //If the enemy is inrange and if the attack cool is less than 0
-            if (InRange && AttackCool < 0)
+            if (InRange && AttackCool <= 0)
                 Attack();
         }
-
+        else
+            ZombieAnimator.SetMoveDir(new Vector3(0, 0, 0));
     }
 
     //Checks how close the enemy is to the player and if close enough returns true to ba able to attack else it returns false and moves twoard the target
@@ -78,8 +83,6 @@ public class ZombieVikingAI : EnemyAI
                 Ray ray = new Ray(transform.position, direction);
                 RaycastHit hit;
 
-                Debug.DrawRay(transform.position, direction, Color.red);
-
                 if (Physics.Raycast(ray, out hit))
                     if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
                         return true;
@@ -91,12 +94,22 @@ public class ZombieVikingAI : EnemyAI
 
     void Attack()
     {
-        AttackCool = 4f;
-        Debug.Log("Attacking player");
-        ZombieAnimator.Attack();
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+        Debug.DrawRay(transform.position, transform.forward, Color.red);
 
-        float ATTACK_DELAY = 0.7f;
-        Invoke("HitBox", ATTACK_DELAY);
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                AttackCool = 2f;
+                Debug.Log("Attacking player");
+                ZombieAnimator.Attack();
+
+                float ATTACK_DELAY = 0.7f;
+                Invoke("HitBox", ATTACK_DELAY);
+            }
+        }
     }
 
     void HitBox()
@@ -122,6 +135,7 @@ public class ZombieVikingAI : EnemyAI
 
     override public void Die()
     {
+        gameObject.layer = LayerMask.NameToLayer("Dead");
         Invoke("End", 3);
     }
 

@@ -8,6 +8,8 @@ public class AxeWeapon : MonoBehaviour
     public LayerMask HitableMask;
     public int Damage;
     public bool Hit;
+    public Vector3 AxeHitBox;
+    public float OffSet;
 
     void Update()
     {
@@ -19,7 +21,7 @@ public class AxeWeapon : MonoBehaviour
 
     void CollisionCheck()
     {
-        Collider[] EnemyCheck = Physics.OverlapBox(transform.position + transform.forward * 0.5f, new Vector3(0.3f, 0.7f, 1), Quaternion.identity, HitableMask);
+        Collider[] EnemyCheck = Physics.OverlapBox(transform.position - (transform.forward * OffSet), AxeHitBox, Quaternion.identity, HitableMask);
         foreach (Collider Check in EnemyCheck)
         {
             Debug.Log("Returning");
@@ -35,6 +37,6 @@ public class AxeWeapon : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawWireCube(transform.position + transform.forward * 0.5f, new Vector3(0.3f, 0.7f, 1));
+        Gizmos.DrawWireCube(transform.position - (transform.forward * OffSet), AxeHitBox);
     }
 }

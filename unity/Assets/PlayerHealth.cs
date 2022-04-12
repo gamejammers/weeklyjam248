@@ -8,7 +8,13 @@ public class PlayerHealth : MonoBehaviour
     public int CurrentHealth;
     public GameObject DeadUI;
 
-    void Awake() { CurrentHealth = MaxHealth; }
+    private PlayerSounds Sounds;
+
+    void Awake()
+    {
+        CurrentHealth = MaxHealth;
+        Sounds = GetComponent<PlayerSounds>();
+    }
 
     public void TakeDamage(int dam, Vector3 KnockBack)
     {
@@ -18,6 +24,7 @@ public class PlayerHealth : MonoBehaviour
             DeadUI.SetActive(true);
             GetComponent<Movement>().Speed = 0;
             GetComponent<Movement>().sensitivity = 0;
+            Sounds.Play_death();
             Cursor.lockState = CursorLockMode.Confined;
         }
         else
