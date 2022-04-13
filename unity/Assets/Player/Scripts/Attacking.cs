@@ -92,6 +92,7 @@ public class Attacking : MonoBehaviour
                 else if (ThrowTime > 0.2f)
                 {
                     ThrowTime = 0f;
+                    axeTracker = null;
                     axeState = AxeState.StartThrowing;
                 }
                 break;
@@ -118,7 +119,7 @@ public class Attacking : MonoBehaviour
                 if (axeTracker == null)
                 {
                     ThrowTime = 0f;
-                    axeTracker = Instantiate(AxePrefab, SightPos.position - (SightPos.forward * 1f), SightPos.rotation) as AxeWeapon;
+                    axeTracker = Instantiate(AxePrefab, SightPos.position, SightPos.rotation) as AxeWeapon;
                     axeTracker.attacking = this;
                     axeTracker.Hit = false;
                     visuals.StartThrow(axeTracker.transform);
@@ -128,8 +129,9 @@ public class Attacking : MonoBehaviour
                 if (ThrowTime > 1f)
                 {
                     Sounds.Play_AxeChains();
+                    Debug.Log("Axe Spawned at" + SightPos.position);
                     ThrowTime = 0f;
-                    axeTracker.transform.position = SightPos.position - (SightPos.forward * 1f);
+                    axeTracker.transform.position = SightPos.position;
                     axeTracker.transform.rotation = SightPos.rotation;
                     axeState = AxeState.Throwing;
                 }
@@ -158,7 +160,7 @@ public class Attacking : MonoBehaviour
             // the axe is returning to us, wait until it reaches us, then trigger the catch
             //
             case AxeState.Returning:
-                Vector3 diff = transform.position - axeTracker.transform.position;
+                Vector3 diff = SightPos.position - axeTracker.transform.position;
                 float dist2 = (Mathf.Abs(diff.x) + Mathf.Abs(diff.y) + Mathf.Abs(diff.z));// orginal was diff.sqrMagnitude;
                 if (dist2 < 0.07f)
                 {

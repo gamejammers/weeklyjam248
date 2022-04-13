@@ -24,12 +24,15 @@ public class AxeWeapon : MonoBehaviour
         Collider[] EnemyCheck = Physics.OverlapBox(transform.position - (transform.forward * OffSet), AxeHitBox, Quaternion.identity, HitableMask);
         foreach (Collider Check in EnemyCheck)
         {
-            Debug.Log("Returning");
-            Hit = true;
-            attacking.ThrowTime = 3;
-            if (Check.gameObject.tag == "Enemy")
+            if (Check.isTrigger == false)
             {
-                Check.gameObject.GetComponent<EnemyHealth>().TakeDamage(Damage);
+                Debug.Log("Returning from" + Check.gameObject.name);
+                Hit = true;
+                attacking.ThrowTime = 100;
+                if (Check.gameObject.tag == "Enemy")
+                {
+                    Check.gameObject.GetComponent<EnemyHealth>().TakeDamage(Damage);
+                }
             }
         }
     }

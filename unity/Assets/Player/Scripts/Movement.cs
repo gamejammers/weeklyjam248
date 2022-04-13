@@ -62,17 +62,18 @@ public class Movement : MonoBehaviour
         float MaxSpeed;
 
         ///Adds the direction in diffrent ways based on weather the player is falling or not
-        if (Input.GetButton("Run"))
+        if (Input.GetButton("Run") && Jumping == false)
             MaxSpeed = Speed * 1.5f;
         else
             MaxSpeed = Speed;
 
 
         rb.AddForce(Direction * Speed * 4f);
-        if (Mathf.Abs(rb.velocity.x) > MaxSpeed || Mathf.Abs(rb.velocity.z) > MaxSpeed)
-            rb.velocity = new Vector3(Direction.x * MaxSpeed, rb.velocity.y, Direction.z * MaxSpeed);
 
         rb.velocity = new Vector3(rb.velocity.x * 0.97f, rb.velocity.y, rb.velocity.z * 0.97f);
+
+        if (Mathf.Abs(rb.velocity.x) > MaxSpeed || Mathf.Abs(rb.velocity.z) > MaxSpeed)
+            rb.velocity = new Vector3(Direction.x * MaxSpeed, rb.velocity.y, Direction.z * MaxSpeed);
     }
 
     //Moves the camera and is called in update
@@ -108,7 +109,6 @@ public class Movement : MonoBehaviour
             if (Check.gameObject.name != gameObject.name && !Check.isTrigger)
             {
                 Grounded = true;
-                Debug.Log(Check.gameObject.name);
             }
         }
 
@@ -120,6 +120,8 @@ public class Movement : MonoBehaviour
             //Subtracts dash cooldown
             if (DashCool >= 0)
                 DashCool -= Time.deltaTime;
+
+            Jumping = false;
         }
 
         //Jumps the player if they can 
@@ -136,6 +138,7 @@ public class Movement : MonoBehaviour
         {
             rb.AddForce(new Vector3(0, JumpPower * 10, 0));
             yield return new WaitForSeconds(0.01f);
+            Jumping = true;
         }
         Sounds.Play_Jump();
     }
